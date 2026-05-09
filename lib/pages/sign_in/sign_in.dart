@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:olx_mobx/pages/sign_in/sign_in_store.dart';
+import 'package:olx_mobx/pages/signup_page.dart';
 import 'package:olx_mobx/widgets/custom_text_filed.dart';
 
 class SignIn extends StatelessWidget {
@@ -55,7 +56,7 @@ class SignIn extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     CustomTextFiled(label: 'E-mail'),
-                    const SizedBox(height: 20),
+
                     Observer(
                       builder: (_) {
                         return CustomTextFiled(
@@ -101,7 +102,11 @@ class SignIn extends StatelessWidget {
                         Text('Não tem uma conta?'),
 
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => SignupPage()),
+                            );
+                          },
                           child: Text('Cadastre-se'),
                         ),
                       ],

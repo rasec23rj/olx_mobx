@@ -39,7 +39,7 @@ dependencies:
   flutter_mobx: 
   parse_server_sdk_flutter: 10.7.0
   get_it: ^9.2.1
-
+  brasil_fields: ^1.19.0
   
 dev_dependencies:
   flutter_test:
