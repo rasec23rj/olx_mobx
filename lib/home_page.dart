@@ -23,20 +23,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: PageView(
-        controller: pageEC,
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          Container(color: Colors.red),
-          Container(color: Colors.green),
-          Container(color: Colors.brown),
-          Container(color: Colors.grey),
-          Container(color: Colors.yellow),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(),
+        body: PageView(
+          controller: pageEC,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            Container(color: Colors.red),
+            Container(color: Colors.green),
+            Container(color: Colors.brown),
+            Container(color: Colors.grey),
+            Container(color: Colors.yellow),
+          ],
+        ),
+        drawer: customDrawer(context),
       ),
-      drawer: customDrawer(context),
     );
   }
 }
