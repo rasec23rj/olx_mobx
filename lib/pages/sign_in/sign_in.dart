@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:olx_mobx/pages/sign_in/sign_in_store.dart';
-import 'package:olx_mobx/pages/signup_page.dart';
+import 'package:olx_mobx/pages/signup/signup_page.dart';
 import 'package:olx_mobx/widgets/custom_text_filed.dart';
 
 class SignIn extends StatelessWidget {

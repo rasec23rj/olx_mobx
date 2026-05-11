@@ -11,6 +11,8 @@ class CustomTextFiled extends StatelessWidget {
   final bool autocorrect;
   final Widget? suffixIcon;
   final List<TextInputFormatter>? inputFormatters;
+  final void Function(String)? onChanged;
+  final String? errorText;
   const CustomTextFiled({
     super.key,
     required this.label,
@@ -22,6 +24,8 @@ class CustomTextFiled extends StatelessWidget {
     this.hintText,
     this.autocorrect = false,
     this.inputFormatters,
+    this.onChanged,
+    this.errorText,
   });
 
   @override
@@ -34,13 +38,21 @@ class CustomTextFiled extends StatelessWidget {
           obscureText: obscureText,
           autocorrect: autocorrect,
           inputFormatters: inputFormatters,
+          onChanged: onChanged,
+          enabled: enabled,
           decoration: InputDecoration(
-            label: Text(label),
+            label: Text(
+              label,
+              style: TextStyle(
+                color: errorText == null ? Colors.red : Colors.black,
+              ),
+            ),
             hintText: hintText,
 
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-            enabled: enabled,
+
             suffixIcon: suffixIcon,
+            errorText: errorText,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -50,7 +62,9 @@ class CustomTextFiled extends StatelessWidget {
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            errorStyle: TextStyle(color: Colors.red),
+            errorStyle: TextStyle(
+              color: errorText == null ? Colors.red : Colors.black,
+            ),
           ),
         ),
         const SizedBox(height: 20),
