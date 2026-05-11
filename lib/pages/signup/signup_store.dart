@@ -125,7 +125,8 @@ abstract class _SignupStoreBase with Store {
       password: senha,
     );
     try {
-      await UserRepository().sinUp(user);
+      final result = await UserRepository().sinUp(user);
+      debugPrint("${result}");
     } catch (e) {
       error = e.toString();
     }

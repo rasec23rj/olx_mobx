@@ -3,3 +3,4 @@ String userName = 'name';
 String userEmail = 'email';
 String userCelular = 'celular';
 String userType = 'userType';
+String createdAt = 'createdAt';
