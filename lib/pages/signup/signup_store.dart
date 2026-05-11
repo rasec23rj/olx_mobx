@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:olx_mobx/models/user_model.dart';
+import 'package:olx_mobx/repositories/user_repository.dart';
 part 'signup_store.g.dart';
 
 class SignupStore = _SignupStoreBase with _$SignupStore;
@@ -37,7 +39,7 @@ abstract class _SignupStoreBase with Store {
     } else if (email.isEmpty) {
       return 'Campo obrigatório';
     } else {
-      return 'Email muito curto';
+      return 'Email invalido';
     }
   }
 
@@ -66,7 +68,7 @@ abstract class _SignupStoreBase with Store {
   void setSenha(String value) => senha = value;
 
   @computed
-  bool get senhaValid => senha != null && celular.length > 6;
+  bool get senhaValid => senha != null && senha.length >= 6;
   String get senhaError {
     if (senhaValid) {
       return '';
@@ -89,7 +91,7 @@ abstract class _SignupStoreBase with Store {
   String get comfirmaSenhaError {
     if (comfirmaSenhaValid) {
       return '';
-    } else if (senha.isEmpty) {
+    } else if (comfirmaSenha.isEmpty) {
       return 'Campo obrigatório';
     } else {
       return 'Senha não coincidem';
@@ -110,10 +112,23 @@ abstract class _SignupStoreBase with Store {
   @observable
   bool loading = false;
 
+  @observable
+  String? error;
+
   @action
   Future<void> _sinUp() async {
     loading = true;
-    await Future.delayed(Duration(seconds: 2));
+    final user = UserModel(
+      name: name,
+      email: email,
+      celular: celular,
+      password: senha,
+    );
+    try {
+      await UserRepository().sinUp(user);
+    } catch (e) {
+      error = e.toString();
+    }
     loading = false;
   }
 }

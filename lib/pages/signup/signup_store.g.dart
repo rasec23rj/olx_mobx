@@ -166,6 +166,24 @@ mixin _$SignupStore on _SignupStoreBase, Store {
     });
   }
 
+  late final _$errorAtom = Atom(
+    name: '_SignupStoreBase.error',
+    context: context,
+  );
+
+  @override
+  String? get error {
+    _$errorAtom.reportRead();
+    return super.error;
+  }
+
+  @override
+  set error(String? value) {
+    _$errorAtom.reportWrite(value, super.error, () {
+      super.error = value;
+    });
+  }
+
   late final _$_sinUpAsyncAction = AsyncAction(
     '_SignupStoreBase._sinUp',
     context: context,
@@ -250,6 +268,7 @@ celular: ${celular},
 senha: ${senha},
 comfirmaSenha: ${comfirmaSenha},
 loading: ${loading},
+error: ${error},
 nameValid: ${nameValid},
 emailInvalid: ${emailInvalid},
 celularValid: ${celularValid},
