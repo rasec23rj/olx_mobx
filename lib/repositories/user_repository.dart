@@ -1,4 +1,5 @@
-import 'package:flutter/rendering.dart';
+import 'dart:async';
+
 import 'package:olx_mobx/core/utils/parser_errors.dart';
 import 'package:olx_mobx/models/user_model.dart';
 import 'package:olx_mobx/repositories/table_keys.dart';
@@ -21,6 +22,34 @@ class UserRepository {
         ParseErrors.getDescription(response.error!.code) ?? 'Erro desconhecido',
       );
     }
+  }
+
+  Future<UserModel> sinIn(String email, String password) async {
+    final parserUser = ParseUser(email, password, null);
+    final response = await parserUser.login();
+
+    if (response.success) {
+      return mapParserToUser(response.result);
+    } else {
+      return Future.error(
+        ParseErrors.getDescription(response.error!.code) ?? 'Erro desconhecido',
+      );
+    }
+  }
+
+  Future<UserModel> currentUser() async {
+    final parserUser = await ParseUser.currentUser();
+    if (parserUser != null) {
+      final response = await ParseUser.getCurrentUserFromServer(
+        parserUser.sessionToken,
+      );
+      if (response!.success) {
+        return mapParserToUser(response.result);
+      } else {
+        await parserUser.logout();
+      }
+    }
+    return UserModel(name: '', email: '', celular: '');
   }
 
   UserModel mapParserToUser(ParseUser parserUser) {

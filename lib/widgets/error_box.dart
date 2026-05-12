@@ -23,6 +23,6 @@ class ErrorBox extends StatelessWidget {
               ],
             ),
           )
-        : SizedBox();
+        : SizedBox.square();
   }
 }

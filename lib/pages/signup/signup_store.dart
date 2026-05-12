@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:olx_mobx/core/session/session_store_user.dart';
 import 'package:olx_mobx/models/user_model.dart';
 import 'package:olx_mobx/repositories/user_repository.dart';
 part 'signup_store.g.dart';
@@ -125,8 +127,8 @@ abstract class _SignupStoreBase with Store {
       password: senha,
     );
     try {
-      final result = await UserRepository().sinUp(user);
-      debugPrint("${result}");
+      final userResult = await UserRepository().sinUp(user);
+      GetIt.I<SessionStoreUser>().setUser(userResult);
     } catch (e) {
       error = e.toString();
     }

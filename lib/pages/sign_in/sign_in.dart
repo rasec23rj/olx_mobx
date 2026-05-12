@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:olx_mobx/pages/sign_in/sign_in_store.dart';
 import 'package:olx_mobx/pages/signup/signup_page.dart';
 import 'package:olx_mobx/widgets/custom_text_filed.dart';
+import 'package:olx_mobx/widgets/error_box.dart';
 
 class SignIn extends StatelessWidget {
   SignIn({super.key});
@@ -49,24 +50,35 @@ class SignIn extends StatelessWidget {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                '-------------------------------------ou---------------------------------',
-                              ),
-                            ),
+                            SizedBox(child: Text('ou')),
 
                             Text('Acessar com E-mail:'),
                           ],
                         ),
                         const SizedBox(height: 10),
-                        CustomTextFiled(label: 'E-mail'),
+                        Observer(
+                          builder: (_) {
+                            return ErrorBox(message: signIn.error.toString());
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        Observer(
+                          builder: (_) {
+                            return CustomTextFiled(
+                              label: 'E-mail',
+                              errorText: signIn.emailError,
+                              onChanged: signIn.setEmail,
+                            );
+                          },
+                        ),
 
                         Observer(
                           builder: (_) {
                             return CustomTextFiled(
                               label: 'Password',
                               obscureText: signIn.obscuretxt,
+                              errorText: signIn.senhaError,
+                              onChanged: signIn.setSenha,
                               suffixIcon: IconButton(
                                 onPressed: () => signIn.setObscuretxt(),
                                 icon: signIn.obscuretxt
@@ -86,17 +98,29 @@ class SignIn extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).primaryColor,
-                              foregroundColor: Colors.white,
-                            ),
-                            onPressed: () {},
-                            child: Text('Entrar'),
-                          ),
+                        Observer(
+                          builder: (_) {
+                            return SizedBox(
+                              width: double.infinity,
+                              height: 50,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).primaryColor,
+                                  foregroundColor: Colors.white,
+                                ),
+                                onPressed: signIn.loginPressed,
+                                child: signIn.loading
+                                    ? CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation(
+                                          Colors.white,
+                                        ),
+                                      )
+                                    : Text('Entrar'),
+                              ),
+                            );
+                          },
                         ),
                         const SizedBox(height: 20),
                         Divider(),

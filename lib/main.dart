@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:olx_mobx/core/database/database.dart';
+import 'package:olx_mobx/core/session/session_store_user.dart';
 import 'package:olx_mobx/home_page.dart';
 import 'package:olx_mobx/widgets/store/page_store.dart';
 
@@ -13,6 +14,7 @@ Future<void> main() async {
 
 void setupLocators() {
   GetIt.I.registerSingleton(PageStore());
+  GetIt.I.registerSingleton(SessionStoreUser());
 }
 
 class MyApp extends StatelessWidget {
