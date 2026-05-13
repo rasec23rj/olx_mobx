@@ -22,7 +22,7 @@ class ImageDialog extends StatelessWidget {
                 Navigator.of(context).pop();
                 onDelete();
               },
-              label: Text('Excluir Images'),
+              label: Text('Excluir Image'),
               icon: Icon(Icons.delete, color: Colors.red),
             ),
           ),

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:olx_mobx/pages/anuncios/anuncio_store.dart';
+import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
 
 class ImageSourceModal extends StatefulWidget {
   const ImageSourceModal({super.key});
@@ -19,9 +19,11 @@ class _ImageSourceModalState extends State<ImageSourceModal> {
   Widget build(BuildContext context) {
     return BottomSheet(
       builder: (context) => SizedBox(
-        height: 100,
+        height: 90,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30),
+          padding: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height * 0.03,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
 

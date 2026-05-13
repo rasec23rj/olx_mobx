@@ -4,3 +4,6 @@ String userEmail = 'email';
 String userCelular = 'celular';
 String userType = 'userType';
 String createdAt = 'createdAt';
+
+String categoryTable = 'Categories';
+String categoryTitle = 'title';

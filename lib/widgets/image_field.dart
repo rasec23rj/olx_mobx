@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
-import 'package:olx_mobx/pages/anuncios/anuncio_store.dart';
+import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
 import 'package:olx_mobx/widgets/image_dialog.dart';
 import 'package:olx_mobx/widgets/image_source_modal.dart';
 

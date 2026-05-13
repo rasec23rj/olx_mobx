@@ -37,27 +37,34 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Observer(
-            builder: (_) {
-              return textAppBar(pageStore.page);
-            },
+      child: LayoutBuilder(
+        builder: (context, constraints) => Scaffold(
+          appBar: AppBar(
+            title: Observer(
+              builder: (_) {
+                return textAppBar(pageStore.page);
+              },
+            ),
           ),
+          body: Center(
+            child: SizedBox(
+              width: constraints.maxWidth < 600 ? 375 : 600,
+              child: PageView(
+                controller: pageEC,
+                onPageChanged: (value) => mudarTitulo,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  AninciosPage(),
+                  CriarAnuncios(),
+                  Container(color: Colors.brown),
+                  Container(color: Colors.grey),
+                  Container(color: Colors.yellow),
+                ],
+              ),
+            ),
+          ),
+          drawer: customDrawer(context),
         ),
-        body: PageView(
-          controller: pageEC,
-          onPageChanged: (value) => mudarTitulo,
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            AninciosPage(),
-            CriarAnuncios(),
-            Container(color: Colors.brown),
-            Container(color: Colors.grey),
-            Container(color: Colors.yellow),
-          ],
-        ),
-        drawer: customDrawer(context),
       ),
     );
   }
