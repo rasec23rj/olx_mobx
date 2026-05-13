@@ -13,6 +13,10 @@ class CustomTextFiled extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onChanged;
   final String? errorText;
+  final String? prefixText;
+  final int? maxLines;
+  final double borderRadius;
+  final InputBorder? border;
   const CustomTextFiled({
     super.key,
     required this.label,
@@ -26,6 +30,10 @@ class CustomTextFiled extends StatelessWidget {
     this.inputFormatters,
     this.onChanged,
     this.errorText,
+    this.prefixText,
+    this.maxLines = 1,
+    this.borderRadius = 10,
+    this.border,
   });
 
   @override
@@ -40,6 +48,7 @@ class CustomTextFiled extends StatelessWidget {
           inputFormatters: inputFormatters,
           onChanged: onChanged,
           enabled: enabled,
+          maxLines: maxLines,
           decoration: InputDecoration(
             label: Text(
               label,
@@ -48,20 +57,30 @@ class CustomTextFiled extends StatelessWidget {
               ),
             ),
             hintText: hintText,
-
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            border: border != null
+                ? OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                  )
+                : null,
 
             suffixIcon: suffixIcon,
+            prefixText: prefixText,
             errorText: errorText,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+            enabledBorder: border != null
+                ? OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                  )
+                : UnderlineInputBorder(),
+            focusedBorder: border != null
+                ? OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                  )
+                : null,
+            errorBorder: border != null
+                ? OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                  )
+                : null,
             errorStyle: TextStyle(
               color: errorText == null ? Colors.red : Colors.black,
             ),

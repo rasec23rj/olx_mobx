@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:olx_mobx/pages/anuncios/anincios_page.dart';
+import 'package:olx_mobx/pages/anuncios/criar_anuncios.dart';
 import 'package:olx_mobx/widgets/custom_drawer.dart';
 import 'package:olx_mobx/widgets/store/page_store.dart';
 
@@ -22,16 +25,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    reaction((_) => pageStore.page, (page) => pageEC.jumpToPage(page));
+  }
+
+  void mudarTitulo() {
+    reaction((_) => pageStore.page, (page) => pageEC.jumpToPage(page));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Observer(
+            builder: (_) {
+              return textAppBar(pageStore.page);
+            },
+          ),
+        ),
         body: PageView(
           controller: pageEC,
+          onPageChanged: (value) => mudarTitulo,
           physics: NeverScrollableScrollPhysics(),
           children: [
-            Container(color: Colors.red),
-            Container(color: Colors.green),
+            AninciosPage(),
+            CriarAnuncios(),
             Container(color: Colors.brown),
             Container(color: Colors.grey),
             Container(color: Colors.yellow),
@@ -40,5 +60,41 @@ class _HomePageState extends State<HomePage> {
         drawer: customDrawer(context),
       ),
     );
+  }
+}
+
+Widget textAppBar(int page) {
+  switch (page) {
+    case 0:
+      return Observer(
+        builder: (_) {
+          return Text('Anúncios');
+        },
+      );
+    case 1:
+      return Observer(
+        builder: (_) {
+          return Text('Criar Anúncios');
+        },
+      );
+    case 2:
+      return Observer(
+        builder: (_) {
+          return Text('Chat');
+        },
+      );
+    case 3:
+      return Observer(
+        builder: (_) {
+          return Text('Favorito');
+        },
+      );
+
+    default:
+      return Observer(
+        builder: (_) {
+          return Text('Minha Conta');
+        },
+      );
   }
 }

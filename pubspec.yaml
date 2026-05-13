@@ -40,6 +40,10 @@ dependencies:
   parse_server_sdk_flutter: 10.7.0
   get_it: ^9.2.1
   brasil_fields: ^1.19.0
+  image_picker: ^1.2.2
+  image_picker_linux: ^0.2.2
+  file_picker:
+  image_cropper: ^12.2.1
   
 dev_dependencies:
   flutter_test:

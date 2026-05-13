@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:olx_mobx/core/database/database.dart';
 import 'package:olx_mobx/core/session/session_store_user.dart';
+import 'package:olx_mobx/core/utils/my_custom_scroll_behavior.dart';
 import 'package:olx_mobx/home_page.dart';
+import 'package:olx_mobx/pages/anuncios/anuncio_store.dart';
 import 'package:olx_mobx/widgets/store/page_store.dart';
 
 Future<void> main() async {
@@ -15,6 +17,7 @@ Future<void> main() async {
 void setupLocators() {
   GetIt.I.registerSingleton(PageStore());
   GetIt.I.registerSingleton(SessionStoreUser());
+  GetIt.I.registerSingleton(AnuncioStore());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,6 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'XLO',
+      scrollBehavior: MyCustomScrollBehavior(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
