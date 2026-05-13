@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:olx_mobx/pages/anuncios/anuncio_store.dart';
+import 'package:olx_mobx/widgets/image_dialog.dart';
 import 'package:olx_mobx/widgets/image_source_modal.dart';
 
 class ImageField extends StatelessWidget {
@@ -54,10 +55,13 @@ class ImageField extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(8, 8, index == 4 ? 8 : 0, 8),
                 child: GestureDetector(
                   onTap: () {
-                    showModalBottomSheet(
+                    showDialog(
                       context: context,
                       builder: (context) {
-                        return ImageSourceModal();
+                        return ImageDialog(
+                          images: anuncioStore.images[index],
+                          onDelete: () => anuncioStore.images.removeAt(index),
+                        );
                       },
                     );
                   },
