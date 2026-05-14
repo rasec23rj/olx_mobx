@@ -38,56 +38,54 @@ class CustomTextFiled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: controller,
-          keyboardType: keyBoardType,
-          obscureText: obscureText,
-          autocorrect: autocorrect,
-          inputFormatters: inputFormatters,
-          onChanged: onChanged,
-          enabled: enabled,
-          maxLines: maxLines,
-          decoration: InputDecoration(
-            label: Text(
-              label,
-              style: TextStyle(
-                color: errorText == null ? Colors.red : Colors.black,
-              ),
-            ),
-            hintText: hintText,
-            border: border != null
-                ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(borderRadius),
-                  )
-                : null,
+    return TextField(
+      controller: controller,
+      keyboardType: keyBoardType,
+      obscureText: obscureText,
+      autocorrect: autocorrect,
+      inputFormatters: inputFormatters,
+      onChanged: onChanged,
+      enabled: enabled,
+      maxLines: maxLines,
 
-            suffixIcon: suffixIcon,
-            prefixText: prefixText,
-            errorText: errorText,
-            enabledBorder: border != null
-                ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(borderRadius),
-                  )
-                : UnderlineInputBorder(),
-            focusedBorder: border != null
-                ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(borderRadius),
-                  )
-                : null,
-            errorBorder: border != null
-                ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(borderRadius),
-                  )
-                : null,
-            errorStyle: TextStyle(
-              color: errorText == null ? Colors.red : Colors.black,
-            ),
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.fromLTRB(16, 0, 12, 10),
+
+        label: Text(
+          label,
+          style: TextStyle(
+            color: errorText == null ? Colors.red : Colors.black,
           ),
         ),
-        const SizedBox(height: 20),
-      ],
+        hintText: hintText,
+        border: border != null
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+              )
+            : null,
+
+        suffixIcon: suffixIcon,
+        prefixText: prefixText,
+        errorText: errorText,
+        enabledBorder: border != null
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+              )
+            : UnderlineInputBorder(),
+        focusedBorder: border != null
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+              )
+            : null,
+        errorBorder: border != null
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+              )
+            : null,
+        errorStyle: TextStyle(
+          color: errorText == null ? Colors.red : Colors.black,
+        ),
+      ),
     );
   }
 }

@@ -23,17 +23,13 @@ class _SignInState extends State<SignIn> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    sessionStoreUser.isLoggedIn
-        ? WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (_) => HomePage()));
-          })
-        : WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (_) => SignIn()));
-          });
+    if (sessionStoreUser.isLoggedIn) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (_) => HomePage()));
+      });
+    }
   }
 
   @override

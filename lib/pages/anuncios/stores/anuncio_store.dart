@@ -178,7 +178,7 @@ abstract class _AnuncioStoreBase with Store {
   void setCep(String value) => cep = value;
 
   @computed
-  bool get cepValid => cep.length == 8;
+  bool get cepValid => cep.length == 10;
   String get cepError {
     if (cepValid) {
       return '';

@@ -20,7 +20,6 @@ class _AnunciosPageState extends State<AnunciosPage> {
               itemCount: widget.anuncioStore.listAnuncios.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                debugPrint('index : $index');
                 return ListTile(
                   title: Text(
                     widget.anuncioStore.listAnuncios[index].title,

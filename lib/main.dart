@@ -6,19 +6,12 @@ import 'package:olx_mobx/core/utils/my_custom_scroll_behavior.dart';
 import 'package:olx_mobx/home_page.dart';
 import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
 import 'package:olx_mobx/pages/anuncios/stores/category_store.dart';
-import 'package:olx_mobx/repositories/ibge_repository.dart';
 import 'package:olx_mobx/widgets/store/page_store.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Database().initializeParse();
   setupLocators();
-
-  IbgeRepository().getUFListFromApi().then((value) {
-    IbgeRepository()
-        .getCityListFromApi(value.first)
-        .then((value2) => debugPrint(value2.first.name));
-  });
 
   runApp(const MyApp());
 }
@@ -52,7 +45,7 @@ class MyApp extends StatelessWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(Colors.deepPurple),
+            backgroundColor: WidgetStateProperty.all(Colors.deepPurple[200]),
             foregroundColor: WidgetStateProperty.all(Colors.white),
           ),
         ),

@@ -1,8 +1,8 @@
 class CityModel {
-  final int id;
+  final int? id;
   final String name;
 
-  CityModel({required this.id, required this.name});
+  CityModel({this.id, required this.name});
 
   factory CityModel.fromJson(Map<String, dynamic> json) =>
       CityModel(id: json['id'], name: json['nome']);
@@ -13,6 +13,6 @@ class CityModel {
 
   @override
   String toString() {
-    return 'UF{id: $id, name: $name}';
+    return 'CITY{id: $id, name: $name}';
   }
 }

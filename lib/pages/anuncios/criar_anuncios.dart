@@ -4,8 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:olx_mobx/models/cep_model.dart';
 import 'package:olx_mobx/pages/anuncios/category_widget.dart';
+import 'package:olx_mobx/pages/anuncios/cep_widget.dart';
 import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
+import 'package:olx_mobx/pages/anuncios/stores/cep_store.dart';
 import 'package:olx_mobx/widgets/custom_text_filed.dart';
 import 'package:olx_mobx/widgets/image_field.dart';
 import 'package:olx_mobx/widgets/store/page_store.dart';
@@ -20,6 +23,7 @@ class CriarAnuncios extends StatefulWidget {
 class _CriarAnunciosState extends State<CriarAnuncios> {
   AnuncioStore anuncioStore = GetIt.I<AnuncioStore>();
   PageStore pageStore = GetIt.I<PageStore>();
+  CepStore cepStore = CepStore();
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +33,13 @@ class _CriarAnunciosState extends State<CriarAnuncios> {
         builder: (_, constrains) {
           return Container(
             width: constrains.maxWidth < 600 ? 375 : 375,
+
             padding: const EdgeInsets.all(20),
-            child: Card(
-              // padding: const EdgeInsets.all(10),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+              ),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -60,22 +68,15 @@ class _CriarAnunciosState extends State<CriarAnuncios> {
                     ),
                     Observer(
                       builder: (_) {
-                        return CategoryWidget(
-                          errorText: anuncioStore.categoryError,
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: CategoryWidget(
+                            errorText: anuncioStore.categoryError,
+                          ),
                         );
                       },
                     ),
-                    Observer(
-                      builder: (_) {
-                        return CustomTextFiled(
-                          label: 'CEP *',
-                          hintText: '26000-000',
-                          keyBoardType: TextInputType.number,
-                          onChanged: anuncioStore.setCep,
-                          errorText: anuncioStore.cepError,
-                        );
-                      },
-                    ),
+                    CepWidget(),
                     Observer(
                       builder: (_) {
                         return CustomTextFiled(
@@ -107,13 +108,7 @@ class _CriarAnunciosState extends State<CriarAnuncios> {
                           width: MediaQuery.of(context).size.width,
                           height: 50,
                           child: ElevatedButton(
-                            style: ButtonStyle(
-                              shape: WidgetStatePropertyAll(
-                                RoundedRectangleBorder(),
-                              ),
-                            ),
                             onPressed: anuncioStore.anuncioPress,
-
                             child: anuncioStore.loading
                                 ? CircularProgressIndicator(color: Colors.white)
                                 : Text('Enviar'),
