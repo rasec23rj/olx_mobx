@@ -11,7 +11,7 @@ class AnuncioRepository {
     parserUser.set<String>('category', anuncio.category);
     parserUser.set<String>('cep', anuncio.cep);
     parserUser.set<String>('preco', anuncio.preco);
-    parserUser.set<List<dynamic>>('imagePath', anuncio.imagePath);
+    parserUser.set<List<ParseFile>>('imagePath', anuncio.imagePath);
 
     final response = await parserUser.save();
 

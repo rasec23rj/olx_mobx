@@ -12,6 +12,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Database().initializeParse();
   setupLocators();
+
   runApp(const MyApp());
 }
 

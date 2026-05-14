@@ -7,7 +7,7 @@ class AnuncioModel {
   final String category;
   final String cep;
   final String preco;
-  final List imagePath;
+  final List<ParseFile> imagePath;
 
   AnuncioModel.fromParse(ParseObject parseObject)
     : id = parseObject.objectId!,
