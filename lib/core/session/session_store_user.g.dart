@@ -35,6 +35,24 @@ mixin _$SessionStoreUser on _SessionStoreUserBase, Store {
     });
   }
 
+  late final _$validUserAtom = Atom(
+    name: '_SessionStoreUserBase.validUser',
+    context: context,
+  );
+
+  @override
+  bool get validUser {
+    _$validUserAtom.reportRead();
+    return super.validUser;
+  }
+
+  @override
+  set validUser(bool value) {
+    _$validUserAtom.reportWrite(value, super.validUser, () {
+      super.validUser = value;
+    });
+  }
+
   late final _$_SessionStoreUserBaseActionController = ActionController(
     name: '_SessionStoreUserBase',
     context: context,
@@ -56,6 +74,7 @@ mixin _$SessionStoreUser on _SessionStoreUserBase, Store {
   String toString() {
     return '''
 user: ${user},
+validUser: ${validUser},
 isLoggedIn: ${isLoggedIn}
     ''';
   }

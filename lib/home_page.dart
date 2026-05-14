@@ -19,9 +19,11 @@ class _HomePageState extends State<HomePage> {
   PageStore pageStore = GetIt.I<PageStore>();
   final pageEC = PageController();
   AnuncioStore anuncioStore = GetIt.I<AnuncioStore>();
+
   @override
   void initState() {
     super.initState();
+
     reaction((_) => pageStore.page, (page) => pageEC.jumpToPage(page));
   }
 

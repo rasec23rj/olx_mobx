@@ -17,10 +17,16 @@ abstract class _SessionStoreUserBase with Store {
   void setUser(UserModel value) => user = value;
 
   @computed
-  bool get isLoggedIn => user != null;
+  bool get isLoggedIn => validUser;
+
+  @observable
+  bool validUser = false;
 
   Future<void> _getCurrentUser() async {
     final user = await UserRepository().currentUser();
+    if (user.name.isNotEmpty || user.name != '') {
+      validUser = true;
+    }
     setUser(user);
   }
 }

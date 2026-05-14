@@ -6,6 +6,7 @@ import 'package:olx_mobx/core/utils/my_custom_scroll_behavior.dart';
 import 'package:olx_mobx/home_page.dart';
 import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
 import 'package:olx_mobx/pages/anuncios/stores/category_store.dart';
+
 import 'package:olx_mobx/widgets/store/page_store.dart';
 
 Future<void> main() async {
@@ -17,8 +18,8 @@ Future<void> main() async {
 }
 
 void setupLocators() {
-  GetIt.I.registerSingleton(PageStore());
   GetIt.I.registerSingleton(SessionStoreUser());
+  GetIt.I.registerSingleton(PageStore());
   GetIt.I.registerSingleton(AnuncioStore());
   GetIt.I.registerSingleton(CategoryStore());
 }

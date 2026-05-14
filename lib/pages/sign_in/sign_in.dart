@@ -1,14 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
+import 'package:olx_mobx/core/session/session_store_user.dart';
+import 'package:olx_mobx/home_page.dart';
 
 import 'package:olx_mobx/pages/sign_in/sign_in_store.dart';
 import 'package:olx_mobx/pages/signup/signup_page.dart';
 import 'package:olx_mobx/widgets/custom_text_filed.dart';
 import 'package:olx_mobx/widgets/error_box.dart';
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
   SignIn({super.key});
+
+  @override
+  State<SignIn> createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
   SignInStore signIn = SignInStore();
+  SessionStoreUser sessionStoreUser = GetIt.I<SessionStoreUser>();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    sessionStoreUser.isLoggedIn
+        ? WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => HomePage()));
+          })
+        : WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => SignIn()));
+          });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
