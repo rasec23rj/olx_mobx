@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -14,6 +13,9 @@ part 'anuncio_store.g.dart';
 class AnuncioStore = _AnuncioStoreBase with _$AnuncioStore;
 
 abstract class _AnuncioStoreBase with Store {
+  _AnuncioStoreBase() {
+    loadAnuncios();
+  }
   @observable
   File? imageFile;
 
@@ -213,14 +215,14 @@ abstract class _AnuncioStoreBase with Store {
 
   @computed
   VoidCallback? get anuncioPress =>
-      (isFormValid && !loading) ? _createAnuncio : null;
+      (isFormValid && !loading) ? createAnuncio : null;
 
   @computed
   bool get isFormValid =>
       titleValid && descriptionValid && categoryValid && cepValid && precoValid;
 
   @action
-  Future<void> _createAnuncio() async {
+  Future<bool> createAnuncio() async {
     loading = true;
     List<ParseFile> arquivos = [];
     for (File image in images) {
@@ -240,10 +242,37 @@ abstract class _AnuncioStoreBase with Store {
       imagePath: arquivos,
     );
     try {
-      await AnuncioRepository().createAnuncio(anuncio);
+      loading = false;
+      return await AnuncioRepository().createAnuncio(anuncio);
     } catch (e) {
       error = e.toString();
+      loading = false;
+      return false;
     }
-    loading = false;
+  }
+
+  @observable
+  List<AnuncioModel> listAnuncios = [];
+
+  @action
+  void setError(String value) => error = value;
+
+  @action
+  void setAnuncios(List<AnuncioModel> anuncios) {
+    listAnuncios.clear();
+    listAnuncios.addAll(anuncios);
+  }
+
+  @action
+  Future<void> loadAnuncios() async {
+    try {
+      loading = true;
+      final anuncios = await AnuncioRepository().getList();
+      setAnuncios(anuncios);
+      loading = false;
+    } catch (e) {
+      setError(e.toString());
+      loading = false;
+    }
   }
 }

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:olx_mobx/pages/anuncios/anincios_page.dart';
+import 'package:olx_mobx/pages/anuncios/anuncios_page.dart';
 import 'package:olx_mobx/pages/anuncios/criar_anuncios.dart';
+import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
 import 'package:olx_mobx/widgets/custom_drawer.dart';
 import 'package:olx_mobx/widgets/store/page_store.dart';
 
@@ -17,7 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   PageStore pageStore = GetIt.I<PageStore>();
   final pageEC = PageController();
-
+  AnuncioStore anuncioStore = GetIt.I<AnuncioStore>();
   @override
   void initState() {
     super.initState();
@@ -54,7 +55,11 @@ class _HomePageState extends State<HomePage> {
                 onPageChanged: (value) => mudarTitulo,
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                  AninciosPage(),
+                  Observer(
+                    builder: (_) {
+                      return AnunciosPage(anuncioStore: anuncioStore);
+                    },
+                  ),
                   CriarAnuncios(),
                   Container(color: Colors.brown),
                   Container(color: Colors.grey),
@@ -73,35 +78,15 @@ class _HomePageState extends State<HomePage> {
 Widget textAppBar(int page) {
   switch (page) {
     case 0:
-      return Observer(
-        builder: (_) {
-          return Text('Anúncios');
-        },
-      );
+      return Text('Anúncios');
     case 1:
-      return Observer(
-        builder: (_) {
-          return Text('Criar Anúncios');
-        },
-      );
+      return Text('Criar Anúncios');
     case 2:
-      return Observer(
-        builder: (_) {
-          return Text('Chat');
-        },
-      );
+      return Text('Chat');
     case 3:
-      return Observer(
-        builder: (_) {
-          return Text('Favorito');
-        },
-      );
+      return Text('Favorito');
 
     default:
-      return Observer(
-        builder: (_) {
-          return Text('Minha Conta');
-        },
-      );
+      return Text('Minha Conta');
   }
 }

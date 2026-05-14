@@ -219,6 +219,24 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
     });
   }
 
+  late final _$listAnunciosAtom = Atom(
+    name: '_AnuncioStoreBase.listAnuncios',
+    context: context,
+  );
+
+  @override
+  List<AnuncioModel> get listAnuncios {
+    _$listAnunciosAtom.reportRead();
+    return super.listAnuncios;
+  }
+
+  @override
+  set listAnuncios(List<AnuncioModel> value) {
+    _$listAnunciosAtom.reportWrite(value, super.listAnuncios, () {
+      super.listAnuncios = value;
+    });
+  }
+
   late final _$pickImageAsyncAction = AsyncAction(
     '_AnuncioStoreBase.pickImage',
     context: context,
@@ -239,14 +257,24 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
     return _$gelleryImageAsyncAction.run(() => super.gelleryImage(context));
   }
 
-  late final _$_createAnuncioAsyncAction = AsyncAction(
-    '_AnuncioStoreBase._createAnuncio',
+  late final _$createAnuncioAsyncAction = AsyncAction(
+    '_AnuncioStoreBase.createAnuncio',
     context: context,
   );
 
   @override
-  Future<void> _createAnuncio() {
-    return _$_createAnuncioAsyncAction.run(() => super._createAnuncio());
+  Future<bool> createAnuncio() {
+    return _$createAnuncioAsyncAction.run(() => super.createAnuncio());
+  }
+
+  late final _$loadAnunciosAsyncAction = AsyncAction(
+    '_AnuncioStoreBase.loadAnuncios',
+    context: context,
+  );
+
+  @override
+  Future<void> loadAnuncios() {
+    return _$loadAnunciosAsyncAction.run(() => super.loadAnuncios());
   }
 
   late final _$_AnuncioStoreBaseActionController = ActionController(
@@ -327,6 +355,30 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
   }
 
   @override
+  void setError(String value) {
+    final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
+      name: '_AnuncioStoreBase.setError',
+    );
+    try {
+      return super.setError(value);
+    } finally {
+      _$_AnuncioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setAnuncios(List<AnuncioModel> anuncios) {
+    final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
+      name: '_AnuncioStoreBase.setAnuncios',
+    );
+    try {
+      return super.setAnuncios(anuncios);
+    } finally {
+      _$_AnuncioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 imageFile: ${imageFile},
@@ -338,6 +390,7 @@ cep: ${cep},
 preco: ${preco},
 loading: ${loading},
 error: ${error},
+listAnuncios: ${listAnuncios},
 titleValid: ${titleValid},
 descriptionValid: ${descriptionValid},
 categoryValid: ${categoryValid},

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 import 'package:olx_mobx/pages/anuncios/category_widget.dart';
 import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
 import 'package:olx_mobx/widgets/custom_text_filed.dart';
 import 'package:olx_mobx/widgets/image_field.dart';
+import 'package:olx_mobx/widgets/store/page_store.dart';
 
 class CriarAnuncios extends StatefulWidget {
   const CriarAnuncios({super.key});
@@ -17,10 +19,11 @@ class CriarAnuncios extends StatefulWidget {
 
 class _CriarAnunciosState extends State<CriarAnuncios> {
   AnuncioStore anuncioStore = GetIt.I<AnuncioStore>();
-  final String selected = '';
+  PageStore pageStore = GetIt.I<PageStore>();
 
   @override
   Widget build(BuildContext context) {
+    anuncioStore.images = ObservableList();
     return SafeArea(
       child: LayoutBuilder(
         builder: (_, constrains) {
@@ -110,6 +113,7 @@ class _CriarAnunciosState extends State<CriarAnuncios> {
                               ),
                             ),
                             onPressed: anuncioStore.anuncioPress,
+
                             child: anuncioStore.loading
                                 ? CircularProgressIndicator(color: Colors.white)
                                 : Text('Enviar'),

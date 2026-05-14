@@ -3,7 +3,7 @@ import 'package:olx_mobx/models/anuncio_model.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class AnuncioRepository {
-  Future<void> createAnuncio(AnuncioModel anuncio) async {
+  Future<bool> createAnuncio(AnuncioModel anuncio) async {
     final parserUser = ParseObject('Anuncios');
 
     parserUser.set<String>('title', anuncio.title);
@@ -11,15 +11,31 @@ class AnuncioRepository {
     parserUser.set<String>('category', anuncio.category);
     parserUser.set<String>('cep', anuncio.cep);
     parserUser.set<String>('preco', anuncio.preco);
-    parserUser.set<List<ParseFile>>('imagePath', anuncio.imagePath);
+    parserUser.set<List<dynamic>>('imagePath', anuncio.imagePath);
 
     final response = await parserUser.save();
 
     if (response.success) {
+      return response.success;
     } else {
       return Future.error(
         ParseErrors.getDescription(response.error!.code) ?? 'Erro desconhecido',
       );
+    }
+  }
+
+  Future<List<AnuncioModel>> getList() async {
+    final queryBuilder = QueryBuilder(ParseObject('Anuncios'))
+      ..orderByAscending('title');
+
+    final response = await queryBuilder.query();
+
+    if (response.success) {
+      return response.results!
+          .map((value) => AnuncioModel.fromParse(value))
+          .toList();
+    } else {
+      throw ParseErrors.getDescription(response.error!.code) ?? '';
     }
   }
 }
