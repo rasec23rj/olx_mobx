@@ -22,7 +22,6 @@ void setupLocators() {
   GetIt.I.registerSingleton(PageStore());
   GetIt.I.registerSingleton(AnuncioStore());
   GetIt.I.registerSingleton(CategoryStore());
-  GetIt.I.registerSingleton(CepStore());
 }
 
 class MyApp extends StatelessWidget {

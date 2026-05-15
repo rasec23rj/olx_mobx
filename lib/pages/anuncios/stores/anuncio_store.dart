@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
+import 'package:olx_mobx/core/session/session_store_user.dart';
 import 'package:olx_mobx/models/anuncio_model.dart';
 import 'package:olx_mobx/pages/anuncios/stores/cep_store.dart';
 import 'package:olx_mobx/repositories/anuncio_repository.dart';
@@ -221,7 +223,7 @@ abstract class _AnuncioStoreBase with Store {
   bool loading = false;
 
   @observable
-  String? error;
+  String error = '';
 
   @computed
   VoidCallback? get anuncioPress =>
@@ -236,8 +238,11 @@ abstract class _AnuncioStoreBase with Store {
       cepStore.cepValid &&
       precoValid;
 
+  @observable
+  AnuncioModel saved = AnuncioModel.empty();
+
   @action
-  Future<bool> createAnuncio() async {
+  Future<void> createAnuncio() async {
     loading = true;
     List<ParseFile> arquivos = [];
     for (File image in images) {
@@ -255,14 +260,21 @@ abstract class _AnuncioStoreBase with Store {
       cep: cepStore.cep.replaceAll(RegExp('[^0-9]'), '').trim(),
       preco: preco.replaceAll('R\$', '').trim(),
       imagePath: arquivos,
+      hidePhone: hidePhone,
+      createdAt: DateTime.now(),
+      user: GetIt.I<SessionStoreUser>().user.id!,
+      views: 0,
+      status: AnuncioModelStatus.PENDING,
+      district: cepStore.address.bairro!,
+      city: cepStore.address.localidade!.name,
+      uf: cepStore.address.uf!.initials,
     );
     try {
       loading = false;
-      return await AnuncioRepository().createAnuncio(anuncio);
+      saved = await AnuncioRepository().createAnuncio(anuncio);
     } catch (e) {
       error = e.toString();
       loading = false;
-      return false;
     }
   }
 

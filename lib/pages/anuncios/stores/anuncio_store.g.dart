@@ -214,15 +214,33 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
   );
 
   @override
-  String? get error {
+  String get error {
     _$errorAtom.reportRead();
     return super.error;
   }
 
   @override
-  set error(String? value) {
+  set error(String value) {
     _$errorAtom.reportWrite(value, super.error, () {
       super.error = value;
+    });
+  }
+
+  late final _$savedAtom = Atom(
+    name: '_AnuncioStoreBase.saved',
+    context: context,
+  );
+
+  @override
+  AnuncioModel get saved {
+    _$savedAtom.reportRead();
+    return super.saved;
+  }
+
+  @override
+  set saved(AnuncioModel value) {
+    _$savedAtom.reportWrite(value, super.saved, () {
+      super.saved = value;
     });
   }
 
@@ -288,7 +306,7 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
   );
 
   @override
-  Future<bool> createAnuncio() {
+  Future<void> createAnuncio() {
     return _$createAnuncioAsyncAction.run(() => super.createAnuncio());
   }
 
@@ -427,6 +445,7 @@ cep: ${cep},
 preco: ${preco},
 loading: ${loading},
 error: ${error},
+saved: ${saved},
 listAnuncios: ${listAnuncios},
 hidePhone: ${hidePhone},
 imagesValid: ${imagesValid},

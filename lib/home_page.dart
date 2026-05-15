@@ -20,7 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   PageStore pageStore = GetIt.I<PageStore>();
   final pageEC = PageController();
-  AnuncioStore anuncioStore = GetIt.I<AnuncioStore>();
+
   SessionStoreUser sessionStoreUser = GetIt.I<SessionStoreUser>();
   @override
   void initState() {
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Observer(
                     builder: (_) {
-                      return AnunciosPage(anuncioStore: anuncioStore);
+                      return AnunciosPage();
                     },
                   ),
                   CriarAnuncios(),

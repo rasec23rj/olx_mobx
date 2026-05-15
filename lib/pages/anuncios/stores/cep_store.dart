@@ -60,6 +60,7 @@ abstract class _CepStoreBase with Store {
       error = e.toString();
       loading = false;
       isAddress = false;
+      address = CepModel.empty();
     }
   }
 

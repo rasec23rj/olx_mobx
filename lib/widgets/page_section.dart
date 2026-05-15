@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:olx_mobx/core/session/session_store_user.dart';
 import 'package:olx_mobx/widgets/store/page_store.dart';
 
 class PageSection extends StatelessWidget {
   PageSection({super.key});
   PageStore pageStore = GetIt.I<PageStore>();
+  SessionStoreUser sessionStoreUser = GetIt.I<SessionStoreUser>();
   @override
   Widget build(BuildContext context) {
     return Observer(
@@ -22,41 +24,49 @@ class PageSection extends StatelessWidget {
               hightlighted: pageStore.page == 0,
             ),
 
-            pageTitle(
-              label: 'Inserir Anúncios',
-              icon: Icons.edit,
-              onTap: () {
-                pageStore.setPage(1);
-              },
-              hightlighted: pageStore.page == 1,
-            ),
+            sessionStoreUser.isLoggedIn
+                ? pageTitle(
+                    label: 'Inserir Anúncios',
+                    icon: Icons.edit,
+                    onTap: () {
+                      pageStore.setPage(1);
+                    },
+                    hightlighted: pageStore.page == 1,
+                  )
+                : SizedBox(),
 
-            pageTitle(
-              label: 'Chat',
-              icon: Icons.chat,
-              onTap: () {
-                pageStore.setPage(2);
-              },
-              hightlighted: pageStore.page == 2,
-            ),
+            sessionStoreUser.isLoggedIn
+                ? pageTitle(
+                    label: 'Chat',
+                    icon: Icons.chat,
+                    onTap: () {
+                      pageStore.setPage(2);
+                    },
+                    hightlighted: pageStore.page == 2,
+                  )
+                : SizedBox(),
 
-            pageTitle(
-              label: 'Favorito',
-              icon: Icons.favorite,
-              onTap: () {
-                pageStore.setPage(3);
-              },
-              hightlighted: pageStore.page == 3,
-            ),
+            sessionStoreUser.isLoggedIn
+                ? pageTitle(
+                    label: 'Favorito',
+                    icon: Icons.favorite,
+                    onTap: () {
+                      pageStore.setPage(3);
+                    },
+                    hightlighted: pageStore.page == 3,
+                  )
+                : SizedBox(),
 
-            pageTitle(
-              label: 'Minha conta',
-              icon: Icons.person,
-              onTap: () {
-                pageStore.setPage(4);
-              },
-              hightlighted: pageStore.page == 4,
-            ),
+            sessionStoreUser.isLoggedIn
+                ? pageTitle(
+                    label: 'Minha conta',
+                    icon: Icons.person,
+                    onTap: () {
+                      pageStore.setPage(4);
+                    },
+                    hightlighted: pageStore.page == 4,
+                  )
+                : SizedBox(),
             Divider(),
           ],
         );

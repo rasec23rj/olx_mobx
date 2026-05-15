@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class ErrorBox extends StatelessWidget {
   final String? message;
-  const ErrorBox({super.key, this.message = ''});
+  const ErrorBox({super.key, this.message = ""});
 
   @override
   Widget build(BuildContext context) {
-    return message != 'null'
+    return (message != "" || message!.isNotEmpty)
         ? Container(
             decoration: BoxDecoration(
               color: Colors.red,

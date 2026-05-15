@@ -21,20 +21,6 @@ class _SignInState extends State<SignIn> {
   SessionStoreUser sessionStoreUser = GetIt.I<SessionStoreUser>();
 
   @override
-  Future<void> initState() async {
-    await sessionStoreUser.getCurrentUser();
-
-    if (sessionStoreUser.user.name.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(
-          context,
-        ).push(MaterialPageRoute(builder: (_) => HomePage()));
-      });
-    }
-    super.initState();
-  }
-
-  @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
     await sessionStoreUser.getCurrentUser();
