@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:olx_mobx/core/session/session_store_user.dart';
 import 'package:olx_mobx/pages/anuncios/anuncios_page.dart';
 import 'package:olx_mobx/pages/anuncios/criar_anuncios.dart';
 import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
+import 'package:olx_mobx/pages/sign_in/sign_in.dart';
 import 'package:olx_mobx/widgets/custom_drawer.dart';
 import 'package:olx_mobx/widgets/store/page_store.dart';
 
@@ -19,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   PageStore pageStore = GetIt.I<PageStore>();
   final pageEC = PageController();
   AnuncioStore anuncioStore = GetIt.I<AnuncioStore>();
-
+  SessionStoreUser sessionStoreUser = GetIt.I<SessionStoreUser>();
   @override
   void initState() {
     super.initState();
@@ -28,9 +30,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
+    await sessionStoreUser.getCurrentUser();
     reaction((_) => pageStore.page, (page) => pageEC.jumpToPage(page));
+    if (sessionStoreUser.user.name.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => SignIn()));
+      });
+    }
   }
 
   void mudarTitulo() {

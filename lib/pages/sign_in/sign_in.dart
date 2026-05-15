@@ -19,11 +19,27 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   SignInStore signIn = SignInStore();
   SessionStoreUser sessionStoreUser = GetIt.I<SessionStoreUser>();
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
 
-    if (sessionStoreUser.isLoggedIn) {
+  @override
+  Future<void> initState() async {
+    await sessionStoreUser.getCurrentUser();
+
+    if (sessionStoreUser.user.name.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (_) => HomePage()));
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    await sessionStoreUser.getCurrentUser();
+
+    if (sessionStoreUser.user.name.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.of(
           context,
@@ -81,7 +97,11 @@ class _SignInState extends State<SignIn> {
                         const SizedBox(height: 10),
                         Observer(
                           builder: (_) {
-                            return ErrorBox(message: signIn.error.toString());
+                            return signIn.error != null ||
+                                    signIn.error != '' ||
+                                    signIn.error!.isEmpty
+                                ? ErrorBox(message: signIn.error.toString())
+                                : SizedBox();
                           },
                         ),
                         const SizedBox(height: 20),

@@ -7,7 +7,7 @@ class SessionStoreUser = _SessionStoreUserBase with _$SessionStoreUser;
 
 abstract class _SessionStoreUserBase with Store {
   _SessionStoreUserBase() {
-    _getCurrentUser();
+    getCurrentUser();
   }
 
   @observable
@@ -22,11 +22,14 @@ abstract class _SessionStoreUserBase with Store {
   @observable
   bool validUser = false;
 
-  Future<void> _getCurrentUser() async {
+  Future<void> getCurrentUser() async {
     final user = await UserRepository().currentUser();
     if (user.name.isNotEmpty || user.name != '') {
       validUser = true;
+    } else {
+      validUser = false;
     }
+
     setUser(user);
   }
 }

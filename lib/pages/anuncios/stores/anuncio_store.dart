@@ -252,7 +252,7 @@ abstract class _AnuncioStoreBase with Store {
       title: title,
       description: description,
       category: category,
-      cep: cep.replaceAll(RegExp('[^0-9]'), '').trim(),
+      cep: cepStore.cep.replaceAll(RegExp('[^0-9]'), '').trim(),
       preco: preco.replaceAll('R\$', '').trim(),
       imagePath: arquivos,
     );
