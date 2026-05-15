@@ -61,16 +61,22 @@ abstract class _SignInStore with Store {
   @observable
   String? error;
 
+  @observable
+  bool saved = false;
+
   @action
   Future<void> _login() async {
     setlLading(true);
+    saved = false;
     try {
       final user = await UserRepository().sinIn(email, senha);
 
       GetIt.I<SessionStoreUser>().setUser(user);
       error = '';
+      saved = true;
     } catch (e) {
       error = e.toString();
+      saved = false;
     }
     setlLading(false);
   }

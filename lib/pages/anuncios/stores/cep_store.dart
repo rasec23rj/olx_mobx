@@ -7,6 +7,8 @@ class CepStore = _CepStoreBase with _$CepStore;
 
 abstract class _CepStoreBase with Store {
   _CepStoreBase() {
+    cep = '';
+    address = CepModel.empty();
     autorun((_) {
       if (clearCep.length != 8) {
         _reset();
@@ -61,6 +63,7 @@ abstract class _CepStoreBase with Store {
       loading = false;
       isAddress = false;
       address = CepModel.empty();
+      cep = '';
     }
   }
 

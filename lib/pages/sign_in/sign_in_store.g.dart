@@ -113,6 +113,21 @@ mixin _$SignInStore on _SignInStore, Store {
     });
   }
 
+  late final _$savedAtom = Atom(name: '_SignInStore.saved', context: context);
+
+  @override
+  bool get saved {
+    _$savedAtom.reportRead();
+    return super.saved;
+  }
+
+  @override
+  set saved(bool value) {
+    _$savedAtom.reportWrite(value, super.saved, () {
+      super.saved = value;
+    });
+  }
+
   late final _$_loginAsyncAction = AsyncAction(
     '_SignInStore._login',
     context: context,
@@ -184,6 +199,7 @@ email: ${email},
 senha: ${senha},
 loading: ${loading},
 error: ${error},
+saved: ${saved},
 emailInvalid: ${emailInvalid},
 senhaValid: ${senhaValid},
 loginPressed: ${loginPressed}

@@ -7,7 +7,7 @@ import 'package:mobx/mobx.dart';
 import 'package:olx_mobx/pages/anuncios/category_widget.dart';
 import 'package:olx_mobx/pages/anuncios/cep_widget.dart';
 import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
-import 'package:olx_mobx/pages/anuncios/stores/cep_store.dart';
+
 import 'package:olx_mobx/widgets/custom_text_filed.dart';
 import 'package:olx_mobx/widgets/error_box.dart';
 import 'package:olx_mobx/widgets/image_field.dart';
@@ -22,7 +22,6 @@ class CriarAnuncios extends StatefulWidget {
 
 class _CriarAnunciosState extends State<CriarAnuncios> {
   AnuncioStore anuncioStore = GetIt.I<AnuncioStore>();
-  CepStore cepStore = CepStore();
   PageStore pageStore = GetIt.I<PageStore>();
 
   @override

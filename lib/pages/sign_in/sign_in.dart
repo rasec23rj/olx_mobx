@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 import 'package:olx_mobx/core/session/session_store_user.dart';
 import 'package:olx_mobx/home_page.dart';
 
@@ -19,6 +20,14 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   SignInStore signIn = SignInStore();
   SessionStoreUser sessionStoreUser = GetIt.I<SessionStoreUser>();
+
+  @override
+  void initState() {
+    super.initState();
+    when((_) => signIn.saved, () {
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) => HomePage()));
+    });
+  }
 
   @override
   Future<void> didChangeDependencies() async {
