@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:olx_mobx/models/cep_model.dart';
 import 'package:olx_mobx/pages/anuncios/category_widget.dart';
 import 'package:olx_mobx/pages/anuncios/cep_widget.dart';
 import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
@@ -22,8 +21,8 @@ class CriarAnuncios extends StatefulWidget {
 
 class _CriarAnunciosState extends State<CriarAnuncios> {
   AnuncioStore anuncioStore = GetIt.I<AnuncioStore>();
-  PageStore pageStore = GetIt.I<PageStore>();
   CepStore cepStore = CepStore();
+  PageStore pageStore = GetIt.I<PageStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +32,21 @@ class _CriarAnunciosState extends State<CriarAnuncios> {
         builder: (_, constrains) {
           return Container(
             width: constrains.maxWidth < 600 ? 375 : 375,
-
+            alignment: Alignment.center,
             padding: const EdgeInsets.all(20),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
               ),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ImageField(),
                     const SizedBox(height: 20),
@@ -76,7 +80,8 @@ class _CriarAnunciosState extends State<CriarAnuncios> {
                         );
                       },
                     ),
-                    CepWidget(),
+                    CepWidget(anuncioStore: anuncioStore),
+                    const SizedBox(height: 20),
                     Observer(
                       builder: (_) {
                         return CustomTextFiled(
@@ -95,20 +100,35 @@ class _CriarAnunciosState extends State<CriarAnuncios> {
                       builder: (_) {
                         return Row(
                           children: [
-                            Checkbox(value: true, onChanged: (bool? value) {}),
-                            Text('Acultar o meu telefone neste anúncio'),
+                            Checkbox(
+                              value: anuncioStore.hidePhone,
+                              onChanged: (value) {
+                                anuncioStore.setHidePhone(value!);
+                              },
+                            ),
+                            Expanded(
+                              child: Text(
+                                'Ocultar o meu telefone neste anúncio',
+                              ),
+                            ),
                           ],
                         );
                       },
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 30),
                     Observer(
                       builder: (_) {
                         return SizedBox(
-                          width: MediaQuery.of(context).size.width,
                           height: 50,
                           child: ElevatedButton(
                             onPressed: anuncioStore.anuncioPress,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: anuncioStore.isFormValid
+                                  ? Colors.orange[400]
+                                  : Colors.grey,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(),
+                            ),
                             child: anuncioStore.loading
                                 ? CircularProgressIndicator(color: Colors.white)
                                 : Text('Enviar'),

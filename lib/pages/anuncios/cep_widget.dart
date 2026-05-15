@@ -2,12 +2,17 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
 import 'package:olx_mobx/pages/anuncios/stores/cep_store.dart';
 import 'package:olx_mobx/widgets/custom_text_filed.dart';
 
 class CepWidget extends StatelessWidget {
-  CepWidget({super.key});
-  final CepStore cepStore = CepStore();
+  CepWidget({super.key, required this.anuncioStore})
+    : cepStore = anuncioStore.cepStore;
+
+  final AnuncioStore anuncioStore;
+  final CepStore cepStore;
+
   @override
   Widget build(BuildContext context) {
     return Observer(
@@ -27,7 +32,11 @@ class CepWidget extends StatelessWidget {
                 CepInputFormatter(),
               ],
             ),
-
+            cepStore.loading
+                ? LinearProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.deepPurpleAccent),
+                  )
+                : SizedBox(),
             if (cepStore.error.isNotEmpty)
               Container(
                 color: Colors.red.withOpacity(0.1),

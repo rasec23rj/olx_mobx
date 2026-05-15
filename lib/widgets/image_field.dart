@@ -11,87 +11,111 @@ class ImageField extends StatelessWidget {
   AnuncioStore anuncioStore = GetIt.I<AnuncioStore>();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        ),
-      ),
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+          ),
 
-      height: 120,
-      child: Observer(
-        builder: (_) => ListView.builder(
-          physics: AlwaysScrollableScrollPhysics(),
+          height: 120,
+          child: Observer(
+            builder: (_) => ListView.builder(
+              physics: AlwaysScrollableScrollPhysics(),
 
-          itemBuilder: (_, index) {
-            if (anuncioStore.images.length == index) {
-              return Padding(
-                padding: EdgeInsets.fromLTRB(8, 8, index == 4 ? 8 : 0, 8),
-                child: GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return ImageSourceModal();
-                      },
-                    );
-                  },
-                  child: CircleAvatar(
-                    radius: 44,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(Icons.camera_alt, color: Colors.white, size: 40),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            } else {
-              return Padding(
-                padding: EdgeInsets.fromLTRB(8, 8, index == 4 ? 8 : 0, 8),
-                child: GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return ImageDialog(
-                          images: anuncioStore.images[index],
-                          onDelete: () => anuncioStore.images.removeAt(index),
+              itemBuilder: (_, index) {
+                if (anuncioStore.images.length == index) {
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(8, 8, index == 4 ? 8 : 0, 8),
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return ImageSourceModal();
+                          },
                         );
                       },
-                    );
-                  },
-                  child: CircleAvatar(
-                    radius: 44,
-                    backgroundImage: FileImage(anuncioStore.images[index]),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        index != -1
-                            ? SizedBox()
-                            : Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
-                                size: 40,
-                              ),
-                      ],
+                      child: CircleAvatar(
+                        radius: 44,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                              size: 40,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              );
-            }
-          },
-          scrollDirection: Axis.horizontal,
-          itemCount: anuncioStore.images.length < 5
-              ? anuncioStore.images.length + 1
-              : 5,
+                  );
+                } else {
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(8, 8, index == 4 ? 8 : 0, 8),
+                    child: GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return ImageDialog(
+                              images: anuncioStore.images[index],
+                              onDelete: () =>
+                                  anuncioStore.images.removeAt(index),
+                            );
+                          },
+                        );
+                      },
+                      child: CircleAvatar(
+                        radius: 44,
+                        backgroundImage: FileImage(anuncioStore.images[index]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            index != -1
+                                ? SizedBox()
+                                : Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.white,
+                                    size: 40,
+                                  ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
+              scrollDirection: Axis.horizontal,
+              itemCount: anuncioStore.images.length < 5
+                  ? anuncioStore.images.length + 1
+                  : 5,
+            ),
+          ),
         ),
-      ),
+        Observer(
+          builder: (_) => anuncioStore.imagesError != null
+              ? Container(
+                  padding: EdgeInsets.only(left: 15),
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    border: Border(top: BorderSide(color: Colors.red)),
+                  ),
+                  child: Text(
+                    anuncioStore.imagesError!,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
+              : SizedBox(),
+        ),
+      ],
     );
   }
 }

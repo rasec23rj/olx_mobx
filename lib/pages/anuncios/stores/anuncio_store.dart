@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:olx_mobx/models/anuncio_model.dart';
+import 'package:olx_mobx/pages/anuncios/stores/cep_store.dart';
 import 'package:olx_mobx/repositories/anuncio_repository.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 part 'anuncio_store.g.dart';
@@ -13,6 +15,7 @@ part 'anuncio_store.g.dart';
 class AnuncioStore = _AnuncioStoreBase with _$AnuncioStore;
 
 abstract class _AnuncioStoreBase with Store {
+  CepStore cepStore = CepStore();
   _AnuncioStoreBase() {
     loadAnuncios();
   }
@@ -117,6 +120,13 @@ abstract class _AnuncioStoreBase with Store {
 
   ObservableList images = ObservableList();
 
+  @computed
+  bool get imagesValid => images.isNotEmpty;
+  String? get imagesError {
+    if (imagesValid) return null;
+    return 'Insira uma images';
+  }
+
   @observable
   String title = '';
 
@@ -178,7 +188,7 @@ abstract class _AnuncioStoreBase with Store {
   void setCep(String value) => cep = value;
 
   @computed
-  bool get cepValid => cep.length == 10;
+  bool get cepValid => cepStore.cep.length == 8;
   String get cepError {
     if (cepValid) {
       return '';
@@ -219,7 +229,12 @@ abstract class _AnuncioStoreBase with Store {
 
   @computed
   bool get isFormValid =>
-      titleValid && descriptionValid && categoryValid && cepValid && precoValid;
+      imagesValid &&
+      titleValid &&
+      descriptionValid &&
+      categoryValid &&
+      cepStore.cepValid &&
+      precoValid;
 
   @action
   Future<bool> createAnuncio() async {
@@ -237,7 +252,7 @@ abstract class _AnuncioStoreBase with Store {
       title: title,
       description: description,
       category: category,
-      cep: cep,
+      cep: cep.replaceAll(RegExp('[^0-9]'), '').trim(),
       preco: preco.replaceAll('R\$', '').trim(),
       imagePath: arquivos,
     );
@@ -275,4 +290,10 @@ abstract class _AnuncioStoreBase with Store {
       loading = false;
     }
   }
+
+  @observable
+  bool hidePhone = false;
+
+  @action
+  void setHidePhone(bool value) => hidePhone = value;
 }

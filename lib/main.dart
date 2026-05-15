@@ -6,6 +6,7 @@ import 'package:olx_mobx/core/utils/my_custom_scroll_behavior.dart';
 import 'package:olx_mobx/home_page.dart';
 import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
 import 'package:olx_mobx/pages/anuncios/stores/category_store.dart';
+import 'package:olx_mobx/pages/anuncios/stores/cep_store.dart';
 import 'package:olx_mobx/widgets/store/page_store.dart';
 
 Future<void> main() async {
@@ -21,6 +22,7 @@ void setupLocators() {
   GetIt.I.registerSingleton(PageStore());
   GetIt.I.registerSingleton(AnuncioStore());
   GetIt.I.registerSingleton(CategoryStore());
+  GetIt.I.registerSingleton(CepStore());
 }
 
 class MyApp extends StatelessWidget {
@@ -43,12 +45,14 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
           centerTitle: true,
         ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(Colors.deepPurple[200]),
-            foregroundColor: WidgetStateProperty.all(Colors.white),
-          ),
-        ),
+        // elevatedButtonTheme: ElevatedButtonThemeData(
+        //   style: ButtonStyle(
+        //     backgroundColor: WidgetStateProperty.all(
+        //       const Color.fromARGB(255, 90, 1, 253),
+        //     ),
+        //     foregroundColor: WidgetStateProperty.all(Colors.white),
+        //   ),
+        // ),
       ),
 
       home: const HomePage(),
