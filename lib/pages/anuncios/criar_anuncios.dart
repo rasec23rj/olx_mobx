@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:olx_mobx/pages/anuncios/category_widget.dart';
-import 'package:olx_mobx/pages/anuncios/cep_widget.dart';
+import 'package:olx_mobx/pages/anuncios/widget/category_widget.dart';
+import 'package:olx_mobx/pages/anuncios/widget/cep_widget.dart';
 import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
 
 import 'package:olx_mobx/widgets/custom_text_filed.dart';

@@ -145,13 +145,13 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
   );
 
   @override
-  String get category {
+  CategoryModel get category {
     _$categoryAtom.reportRead();
     return super.category;
   }
 
   @override
-  set category(String value) {
+  set category(CategoryModel value) {
     _$categoryAtom.reportWrite(value, super.category, () {
       super.category = value;
     });
@@ -262,6 +262,24 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
     });
   }
 
+  late final _$searchAtom = Atom(
+    name: '_AnuncioStoreBase.search',
+    context: context,
+  );
+
+  @override
+  String get search {
+    _$searchAtom.reportRead();
+    return super.search;
+  }
+
+  @override
+  set search(String value) {
+    _$searchAtom.reportWrite(value, super.search, () {
+      super.search = value;
+    });
+  }
+
   late final _$hidePhoneAtom = Atom(
     name: '_AnuncioStoreBase.hidePhone',
     context: context,
@@ -362,7 +380,7 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
   }
 
   @override
-  void setCategory(String value) {
+  void setCategory(CategoryModel value) {
     final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
       name: '_AnuncioStoreBase.setCategory',
     );
@@ -422,6 +440,18 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
   }
 
   @override
+  void setSearch(String value) {
+    final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
+      name: '_AnuncioStoreBase.setSearch',
+    );
+    try {
+      return super.setSearch(value);
+    } finally {
+      _$_AnuncioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setHidePhone(bool value) {
     final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
       name: '_AnuncioStoreBase.setHidePhone',
@@ -447,6 +477,7 @@ loading: ${loading},
 error: ${error},
 saved: ${saved},
 listAnuncios: ${listAnuncios},
+search: ${search},
 hidePhone: ${hidePhone},
 imagesValid: ${imagesValid},
 titleValid: ${titleValid},

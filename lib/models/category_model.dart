@@ -1,8 +1,10 @@
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class CategoryModel {
-  final String id;
-  final String title;
+  String? id;
+  String? title;
+
+  CategoryModel.empty() : id = null, title = null;
 
   CategoryModel({required this.title, required this.id});
 

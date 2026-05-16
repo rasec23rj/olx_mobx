@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:olx_mobx/core/session/session_store_user.dart';
 import 'package:olx_mobx/models/anuncio_model.dart';
+import 'package:olx_mobx/models/category_model.dart';
 import 'package:olx_mobx/pages/anuncios/stores/cep_store.dart';
 import 'package:olx_mobx/repositories/anuncio_repository.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
@@ -166,17 +167,17 @@ abstract class _AnuncioStoreBase with Store {
   }
 
   @observable
-  String category = '';
+  CategoryModel category = CategoryModel.empty();
 
   @action
-  void setCategory(String value) => category = value;
+  void setCategory(CategoryModel value) => category = value;
 
   @computed
-  bool get categoryValid => category.isNotEmpty;
+  bool get categoryValid => category.title!.isNotEmpty;
   String get categoryError {
     if (categoryValid) {
       return '';
-    } else if (category.isEmpty) {
+    } else if (category.title!.isEmpty) {
       return 'Campo obrigatório';
     } else {
       return 'Category muito curto';
@@ -256,7 +257,7 @@ abstract class _AnuncioStoreBase with Store {
     final anuncio = AnuncioModel(
       title: title,
       description: description,
-      category: category,
+      category: category.id,
       cep: cepStore.cep.replaceAll(RegExp('[^0-9]'), '').trim(),
       preco: preco.replaceAll('R\$', '').trim(),
       imagePath: arquivos,
@@ -289,6 +290,12 @@ abstract class _AnuncioStoreBase with Store {
     listAnuncios.clear();
     listAnuncios.addAll(anuncios);
   }
+
+  @observable
+  String search = '';
+
+  @action
+  void setSearch(String value) => search = value;
 
   @action
   Future<void> loadAnuncios() async {

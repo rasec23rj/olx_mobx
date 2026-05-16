@@ -15,19 +15,21 @@ class CategoryWidget extends StatelessWidget {
     return DropdownButtonFormField<CategoryModel>(
       decoration: InputDecoration(
         labelText: 'Selecione uma opção',
+        border: InputBorder.none,
         errorText: errorText,
         errorStyle: TextStyle(
           color: errorText != null ? Colors.black : Colors.red,
         ),
       ),
+
       items: categoryStore.categoryList.map((item) {
         return DropdownMenuItem<CategoryModel>(
           value: item,
-          child: Text(item.title),
+          child: Text(item.title!),
         );
       }).toList(),
       onChanged: (value) {
-        anuncioStore.category = value!.id;
+        anuncioStore.category = value!;
       },
     );
   }

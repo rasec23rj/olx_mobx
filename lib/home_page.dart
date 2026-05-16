@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -19,9 +21,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PageStore pageStore = GetIt.I<PageStore>();
+  AnuncioStore anuncioStore = GetIt.I<AnuncioStore>();
+  SessionStoreUser sessionStoreUser = GetIt.I<SessionStoreUser>();
   final pageEC = PageController();
 
-  SessionStoreUser sessionStoreUser = GetIt.I<SessionStoreUser>();
   @override
   void initState() {
     super.initState();
@@ -45,6 +48,18 @@ class _HomePageState extends State<HomePage> {
     reaction((_) => pageStore.page, (page) => pageEC.jumpToPage(page));
   }
 
+  Future<dynamic> openSearch(BuildContext context) async {
+    final search = await showDialog(
+      context: context,
+      builder: (_) => searchDialog(context),
+    );
+    if (search != null) {
+      anuncioStore.setSearch(search);
+    }
+  }
+
+  final searchEC = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -53,9 +68,30 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(
             title: Observer(
               builder: (_) {
-                return textAppBar(pageStore.page);
+                return anuncioStore.search.isEmpty
+                    ? textAppBar(pageStore.page)
+                    : Text(anuncioStore.search);
               },
             ),
+            actions: [
+              Observer(
+                builder: (_) {
+                  return pageStore.page == 0
+                      ? IconButton(
+                          onPressed: () => openSearch(context),
+                          icon: Icon(
+                            anuncioStore.search.isEmpty
+                                ? Icons.search
+                                : Icons.delete,
+                            color: anuncioStore.search.isEmpty
+                                ? Colors.white
+                                : Colors.red,
+                          ),
+                        )
+                      : SizedBox();
+                },
+              ),
+            ],
           ),
           body: Center(
             child: SizedBox(
@@ -81,6 +117,42 @@ class _HomePageState extends State<HomePage> {
           drawer: customDrawer(context),
         ),
       ),
+    );
+  }
+
+  Widget searchDialog(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned(
+          top: 2,
+          left: 2,
+          right: 2,
+          child: Card(
+            child: TextField(
+              controller: searchEC,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 15),
+                border: InputBorder.none,
+                prefixIcon: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: Icon(Icons.arrow_back),
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    searchEC.clear();
+                  },
+                  icon: Icon(Icons.close),
+                ),
+              ),
+              textInputAction: TextInputAction.search,
+              onSubmitted: (value) {
+                Navigator.of(context).pop(value);
+              },
+              autofocus: true,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
