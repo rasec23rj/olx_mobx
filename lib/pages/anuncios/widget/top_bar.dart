@@ -93,20 +93,3 @@ Widget categoryDialog() {
     ),
   );
 }
-
-// Widget filtroDialog() {
-//   return Dialog(
-//     backgroundColor: Colors.transparent,
-//     child: Card(
-//       color: Colors.white,
-//       child: Center(
-//         child: Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: Column(children: [
-
-//           ]),
-//         ),
-//       ),
-//     ),
-//   );
-// }
