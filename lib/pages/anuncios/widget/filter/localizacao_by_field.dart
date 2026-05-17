@@ -48,7 +48,10 @@ class LocalizacaoByField extends StatelessWidget {
               initialValue: filterStore.initialValueCity.name!.isNotEmpty
                   ? filterStore.initialValueCity
                   : null,
-              decoration: InputDecoration(labelText: 'Selecione uma cidade'),
+              decoration: InputDecoration(
+                labelText: 'Selecione uma cidade',
+                enabled: filterStore.selectedUF != 0 ? true : false,
+              ),
 
               items: filterStore.cityList.map((item) {
                 return DropdownMenuItem<CityModel>(

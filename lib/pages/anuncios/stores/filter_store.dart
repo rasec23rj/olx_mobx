@@ -35,9 +35,7 @@ abstract class _FilterStoreBase with Store {
 
   @computed
   String? get priceError =>
-      maxPrice != null && minPrice != null && maxPrice < minPrice
-      ? 'Faixa de preço inválida'
-      : null;
+      maxPrice == 0 && maxPrice <= minPrice ? 'Faixa de preço inválida' : null;
 
   @observable
   TipoAnuncioBy tipoAnuncioBy = TipoAnuncioBy.PARTICULAR;
@@ -76,4 +74,10 @@ abstract class _FilterStoreBase with Store {
     final city = await IbgeRepository().getCityListFromApi(ufModel);
     cityList.addAll(city);
   }
+
+  @computed
+  bool get isFormValidFilter =>
+      priceError == null &&
+      initialValueUf.name!.isNotEmpty &&
+      initialValueCity.name!.isNotEmpty;
 }

@@ -15,9 +15,9 @@ class OrderByField extends StatelessWidget {
         SectionTitleFilter(title: 'Ordernar por'),
         Observer(
           builder: (_) => Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               orderOption(title: 'Data', order: OrdeBy.DATE),
-              const SizedBox(width: 50),
               orderOption(title: 'Preço', order: OrdeBy.PRICE),
             ],
           ),
@@ -33,6 +33,7 @@ class OrderByField extends StatelessWidget {
       },
       child: Container(
         height: 50,
+        width: 120,
         padding: EdgeInsets.symmetric(horizontal: 25),
         alignment: Alignment.center,
         decoration: BoxDecoration(

@@ -16,6 +16,13 @@ mixin _$FilterStore on _FilterStoreBase, Store {
     () => super.priceError,
     name: '_FilterStoreBase.priceError',
   )).value;
+  Computed<bool>? _$isFormValidFilterComputed;
+
+  @override
+  bool get isFormValidFilter => (_$isFormValidFilterComputed ??= Computed<bool>(
+    () => super.isFormValidFilter,
+    name: '_FilterStoreBase.isFormValidFilter',
+  )).value;
 
   late final _$orderAtom = Atom(
     name: '_FilterStoreBase.order',
@@ -247,7 +254,8 @@ selectedUF: ${selectedUF},
 selectedCity: ${selectedCity},
 initialValueUf: ${initialValueUf},
 initialValueCity: ${initialValueCity},
-priceError: ${priceError}
+priceError: ${priceError},
+isFormValidFilter: ${isFormValidFilter}
     ''';
   }
 }
