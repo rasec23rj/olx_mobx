@@ -244,6 +244,18 @@ mixin _$FilterStore on _FilterStoreBase, Store {
   }
 
   @override
+  void save() {
+    final _$actionInfo = _$_FilterStoreBaseActionController.startAction(
+      name: '_FilterStoreBase.save',
+    );
+    try {
+      return super.save();
+    } finally {
+      _$_FilterStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 order: ${order},

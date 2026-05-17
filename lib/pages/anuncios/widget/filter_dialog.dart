@@ -42,7 +42,12 @@ class FilterDialog extends StatelessWidget {
                               : Colors.grey[400],
                           foregroundColor: Colors.white,
                         ),
-                        onPressed: filterStore.isFormValidFilter ? () {} : null,
+                        onPressed: filterStore.isFormValidFilter
+                            ? () {
+                                filterStore.save();
+                                Navigator.of(context).pop();
+                              }
+                            : null,
                         child: Text(
                           'Filtar'.toUpperCase(),
                           style: TextStyle(color: Colors.white, fontSize: 18),

@@ -178,13 +178,13 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
   );
 
   @override
-  String get preco {
+  int get preco {
     _$precoAtom.reportRead();
     return super.preco;
   }
 
   @override
-  set preco(String value) {
+  set preco(int value) {
     _$precoAtom.reportWrite(value, super.preco, () {
       super.preco = value;
     });
@@ -298,6 +298,24 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
     });
   }
 
+  late final _$filterAtom = Atom(
+    name: '_AnuncioStoreBase.filter',
+    context: context,
+  );
+
+  @override
+  FilterStore get filter {
+    _$filterAtom.reportRead();
+    return super.filter;
+  }
+
+  @override
+  set filter(FilterStore value) {
+    _$filterAtom.reportWrite(value, super.filter, () {
+      super.filter = value;
+    });
+  }
+
   late final _$pickImageAsyncAction = AsyncAction(
     '_AnuncioStoreBase.pickImage',
     context: context,
@@ -404,7 +422,7 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
   }
 
   @override
-  void setPreco(String value) {
+  void setPreco(int value) {
     final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
       name: '_AnuncioStoreBase.setPreco',
     );
@@ -464,6 +482,18 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
   }
 
   @override
+  void setFilter(FilterStore value) {
+    final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
+      name: '_AnuncioStoreBase.setFilter',
+    );
+    try {
+      return super.setFilter(value);
+    } finally {
+      _$_AnuncioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 imageFile: ${imageFile},
@@ -479,6 +509,7 @@ saved: ${saved},
 listAnuncios: ${listAnuncios},
 search: ${search},
 hidePhone: ${hidePhone},
+filter: ${filter},
 imagesValid: ${imagesValid},
 titleValid: ${titleValid},
 descriptionValid: ${descriptionValid},

@@ -18,7 +18,7 @@ class OrderByField extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               orderOption(title: 'Data', order: OrdeBy.DATE),
-              orderOption(title: 'Preço', order: OrdeBy.PRICE),
+              orderOption(title: 'Preço', order: OrdeBy.PRECO),
             ],
           ),
         ),

@@ -10,7 +10,7 @@ class AnuncioModel {
   String? description;
   String? category;
   String? cep;
-  String? preco;
+  int? preco;
   String? district;
   String? city;
   String? uf;
@@ -26,7 +26,7 @@ class AnuncioModel {
       description = '',
       category = '',
       cep = '',
-      preco = '',
+      preco = 0,
       district = '',
       city = '',
       uf = '',

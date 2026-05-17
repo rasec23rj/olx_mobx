@@ -1,10 +1,12 @@
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:olx_mobx/models/city_model.dart';
 import 'package:olx_mobx/models/uf_model.dart';
+import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
 import 'package:olx_mobx/repositories/ibge_repository.dart';
 part 'filter_store.g.dart';
 
-enum OrdeBy { DATE, PRICE }
+enum OrdeBy { DATE, PRECO }
 
 enum TipoAnuncioBy { PARTICULAR, PROFISSIONAL }
 
@@ -80,4 +82,9 @@ abstract class _FilterStoreBase with Store {
       priceError == null &&
       initialValueUf.name!.isNotEmpty &&
       initialValueCity.name!.isNotEmpty;
+
+  @action
+  void save() {
+    GetIt.I<AnuncioStore>().setFilter(this as FilterStore);
+  }
 }

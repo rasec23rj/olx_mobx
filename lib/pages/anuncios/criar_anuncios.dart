@@ -27,7 +27,7 @@ class _CriarAnunciosState extends State<CriarAnuncios> {
   @override
   void initState() {
     super.initState();
-    when((_) => anuncioStore.saved.preco!.isNotEmpty, () {
+    when((_) => anuncioStore.saved.preco! > 0, () {
       pageStore.setPage(0);
     });
   }
@@ -116,7 +116,8 @@ class _CriarAnunciosState extends State<CriarAnuncios> {
                             builder: (_) {
                               return CustomTextFiled(
                                 label: 'Preço *',
-                                onChanged: anuncioStore.setPreco,
+                                onChanged: (value) =>
+                                    anuncioStore.setPreco(int.tryParse(value)!),
                                 errorText: anuncioStore.precoError,
                                 keyBoardType: TextInputType.number,
                                 inputFormatters: [

@@ -1,5 +1,6 @@
 import 'package:olx_mobx/core/utils/parser_errors.dart';
 import 'package:olx_mobx/models/anuncio_model.dart';
+import 'package:olx_mobx/pages/anuncios/stores/filter_store.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class AnuncioRepository {
@@ -10,7 +11,7 @@ class AnuncioRepository {
     parserUser.set<String>('description', anuncio.description!);
     parserUser.set<String>('category', anuncio.category!);
     parserUser.set<String>('cep', anuncio.cep!);
-    parserUser.set<String>('preco', anuncio.preco!);
+    parserUser.set<int>('preco', anuncio.preco!);
     parserUser.set<bool>('hidePhone', anuncio.hidePhone!);
     parserUser.set<int>('views', anuncio.views!);
     parserUser.set<String>('status', anuncio.status!.name);
@@ -38,6 +39,25 @@ class AnuncioRepository {
   Future<List<AnuncioModel>> getList() async {
     final queryBuilder = QueryBuilder(ParseObject('Anuncios'))
       ..orderByAscending('title');
+
+    final response = await queryBuilder.query();
+
+    if (response.success) {
+      return response.results!
+          .map((value) => AnuncioModel.fromParse(value))
+          .toList();
+    } else {
+      throw ParseErrors.getDescription(response.error!.code) ?? '';
+    }
+  }
+
+  Future<List<AnuncioModel>> getListFilter(FilterStore filter) async {
+    final queryBuilder = QueryBuilder(ParseObject('Anuncios'))
+      ..whereEqualTo('uf', filter.initialValueUf.initials.toString())
+      ..whereEqualTo('city', filter.initialValueCity.name.toString())
+      ..whereGreaterThanOrEqualsTo('preco', filter.minPrice)
+      ..whereLessThanOrEqualTo('preco', filter.maxPrice)
+      ..orderByAscending(filter.order.name.toLowerCase());
 
     final response = await queryBuilder.query();
 

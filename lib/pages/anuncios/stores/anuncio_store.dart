@@ -11,6 +11,7 @@ import 'package:olx_mobx/core/session/session_store_user.dart';
 import 'package:olx_mobx/models/anuncio_model.dart';
 import 'package:olx_mobx/models/category_model.dart';
 import 'package:olx_mobx/pages/anuncios/stores/cep_store.dart';
+import 'package:olx_mobx/pages/anuncios/stores/filter_store.dart';
 import 'package:olx_mobx/repositories/anuncio_repository.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 part 'anuncio_store.g.dart';
@@ -20,7 +21,8 @@ class AnuncioStore = _AnuncioStoreBase with _$AnuncioStore;
 abstract class _AnuncioStoreBase with Store {
   CepStore cepStore = CepStore();
   _AnuncioStoreBase() {
-    loadAnuncios();
+    // loadAnuncios();
+    autorun((_) {});
   }
   @observable
   File? imageFile;
@@ -173,11 +175,11 @@ abstract class _AnuncioStoreBase with Store {
   void setCategory(CategoryModel value) => category = value;
 
   @computed
-  bool get categoryValid => category.title!.isNotEmpty;
+  bool get categoryValid => category.title != null;
   String get categoryError {
     if (categoryValid) {
       return '';
-    } else if (category.title!.isEmpty) {
+    } else if (category.title != null) {
       return 'Campo obrigatório';
     } else {
       return 'Category muito curto';
@@ -203,17 +205,17 @@ abstract class _AnuncioStoreBase with Store {
   }
 
   @observable
-  String preco = '';
+  int preco = 0;
 
   @action
-  void setPreco(String value) => preco = value;
+  void setPreco(int value) => preco = value;
 
   @computed
-  bool get precoValid => preco.isNotEmpty;
+  bool get precoValid => preco > 0;
   String get precoError {
     if (precoValid) {
       return '';
-    } else if (preco.isEmpty) {
+    } else if (preco > 0) {
       return 'Campo obrigatório';
     } else {
       return 'preco muito curto';
@@ -259,7 +261,7 @@ abstract class _AnuncioStoreBase with Store {
       description: description,
       category: category.id,
       cep: cepStore.cep.replaceAll(RegExp('[^0-9]'), '').trim(),
-      preco: preco.replaceAll('R\$', '').trim(),
+      preco: preco,
       imagePath: arquivos,
       hidePhone: hidePhone,
       createdAt: DateTime.now(),
@@ -301,7 +303,10 @@ abstract class _AnuncioStoreBase with Store {
   Future<void> loadAnuncios() async {
     try {
       loading = true;
-      final anuncios = await AnuncioRepository().getList();
+      listAnuncios.clear();
+      final anuncios = filter.initialValueUf.name!.isEmpty
+          ? await AnuncioRepository().getList()
+          : await AnuncioRepository().getListFilter(filter);
       setAnuncios(anuncios);
       loading = false;
     } catch (e) {
@@ -315,4 +320,10 @@ abstract class _AnuncioStoreBase with Store {
 
   @action
   void setHidePhone(bool value) => hidePhone = value;
+
+  @observable
+  FilterStore filter = FilterStore();
+
+  @action
+  void setFilter(FilterStore value) => {filter = value, loadAnuncios()};
 }
