@@ -1,6 +1,6 @@
 class CityModel {
   final int? id;
-  final String name;
+  final String? name;
 
   CityModel({this.id, required this.name});
 

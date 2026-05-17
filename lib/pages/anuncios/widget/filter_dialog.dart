@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:olx_mobx/pages/anuncios/stores/filter_store.dart';
+import 'package:olx_mobx/pages/anuncios/widget/filter/localizacao_by_field.dart';
 import 'package:olx_mobx/pages/anuncios/widget/filter/order_by_field.dart';
 import 'package:olx_mobx/pages/anuncios/widget/filter/pricec_by_field.dart';
 import 'package:olx_mobx/pages/anuncios/widget/filter/tipo_anuncio_by_field.dart';
@@ -24,6 +25,7 @@ class FilterDialog extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
+                LocalizacaoByField(filterStore: filterStore),
                 OrderByField(filterStore: filterStore),
                 PricecByField(filterStore: filterStore),
                 TipoAnuncioByField(filterStore: filterStore),

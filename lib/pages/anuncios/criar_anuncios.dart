@@ -105,7 +105,7 @@ class _CriarAnunciosState extends State<CriarAnuncios> {
                               return Padding(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: CategoryWidget(
-                                  errorText: anuncioStore.categoryError,
+                                  errorText: anuncioStore.categoryError!,
                                 ),
                               );
                             },

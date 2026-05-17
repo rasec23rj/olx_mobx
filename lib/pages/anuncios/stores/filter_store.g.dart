@@ -89,6 +89,100 @@ mixin _$FilterStore on _FilterStoreBase, Store {
     });
   }
 
+  late final _$selectedUFAtom = Atom(
+    name: '_FilterStoreBase.selectedUF',
+    context: context,
+  );
+
+  @override
+  int get selectedUF {
+    _$selectedUFAtom.reportRead();
+    return super.selectedUF;
+  }
+
+  @override
+  set selectedUF(int value) {
+    _$selectedUFAtom.reportWrite(value, super.selectedUF, () {
+      super.selectedUF = value;
+    });
+  }
+
+  late final _$selectedCityAtom = Atom(
+    name: '_FilterStoreBase.selectedCity',
+    context: context,
+  );
+
+  @override
+  int get selectedCity {
+    _$selectedCityAtom.reportRead();
+    return super.selectedCity;
+  }
+
+  @override
+  set selectedCity(int value) {
+    _$selectedCityAtom.reportWrite(value, super.selectedCity, () {
+      super.selectedCity = value;
+    });
+  }
+
+  late final _$initialValueUfAtom = Atom(
+    name: '_FilterStoreBase.initialValueUf',
+    context: context,
+  );
+
+  @override
+  UfModel get initialValueUf {
+    _$initialValueUfAtom.reportRead();
+    return super.initialValueUf;
+  }
+
+  @override
+  set initialValueUf(UfModel value) {
+    _$initialValueUfAtom.reportWrite(value, super.initialValueUf, () {
+      super.initialValueUf = value;
+    });
+  }
+
+  late final _$initialValueCityAtom = Atom(
+    name: '_FilterStoreBase.initialValueCity',
+    context: context,
+  );
+
+  @override
+  CityModel get initialValueCity {
+    _$initialValueCityAtom.reportRead();
+    return super.initialValueCity;
+  }
+
+  @override
+  set initialValueCity(CityModel value) {
+    _$initialValueCityAtom.reportWrite(value, super.initialValueCity, () {
+      super.initialValueCity = value;
+    });
+  }
+
+  late final _$loadingUfListAsyncAction = AsyncAction(
+    '_FilterStoreBase.loadingUfList',
+    context: context,
+  );
+
+  @override
+  Future<void> loadingUfList() {
+    return _$loadingUfListAsyncAction.run(() => super.loadingUfList());
+  }
+
+  late final _$selectedcityListAsyncAction = AsyncAction(
+    '_FilterStoreBase.selectedcityList',
+    context: context,
+  );
+
+  @override
+  Future<void> selectedcityList({required UfModel ufModel}) {
+    return _$selectedcityListAsyncAction.run(
+      () => super.selectedcityList(ufModel: ufModel),
+    );
+  }
+
   late final _$_FilterStoreBaseActionController = ActionController(
     name: '_FilterStoreBase',
     context: context,
@@ -149,6 +243,10 @@ order: ${order},
 minPrice: ${minPrice},
 maxPrice: ${maxPrice},
 tipoAnuncioBy: ${tipoAnuncioBy},
+selectedUF: ${selectedUF},
+selectedCity: ${selectedCity},
+initialValueUf: ${initialValueUf},
+initialValueCity: ${initialValueCity},
 priceError: ${priceError}
     ''';
   }

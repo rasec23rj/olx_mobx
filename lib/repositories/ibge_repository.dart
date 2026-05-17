@@ -16,7 +16,7 @@ class IbgeRepository {
       return jsonDecode.map<UfModel>((uf) => UfModel.fromJson(uf)).toList()
         ..sort(
           (UfModel a, UfModel b) =>
-              a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+              a.name!.toLowerCase().compareTo(b.name!.toLowerCase()),
         );
     }
 
@@ -31,7 +31,7 @@ class IbgeRepository {
       return response.data!.map<UfModel>((uf) => UfModel.fromJson(uf)).toList()
         ..sort(
           (UfModel a, UfModel b) =>
-              a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+              a.name!.toLowerCase().compareTo(b.name!.toLowerCase()),
         );
     } on DioException {
       return Future.error('Falha em obter lista de estados');
@@ -49,7 +49,7 @@ class IbgeRepository {
           .toList()
         ..sort(
           (CityModel a, CityModel b) =>
-              a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+              a.name!.toLowerCase().compareTo(b.name!.toLowerCase()),
         );
     } on DioException {
       return Future.error('Falha em obter lista de cidades');

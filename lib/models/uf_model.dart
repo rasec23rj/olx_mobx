@@ -1,7 +1,7 @@
 class UfModel {
-  final int id;
-  final String initials;
-  final String name;
+  final int? id;
+  final String? initials;
+  final String? name;
 
   UfModel({required this.id, required this.initials, required this.name});
 

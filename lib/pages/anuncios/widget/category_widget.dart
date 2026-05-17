@@ -22,7 +22,7 @@ class CategoryWidget extends StatelessWidget {
         ),
       ),
 
-      items: categoryStore.categoryList.map((item) {
+      items: categoryStore?.categoryList.map((item) {
         return DropdownMenuItem<CategoryModel>(
           value: item,
           child: Text(item.title!),
