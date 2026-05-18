@@ -28,7 +28,7 @@ class _AnunciosPageState extends State<AnunciosPage> {
         const SizedBox(height: 20),
         Observer(
           builder: (_) {
-            if (anuncioStore.loading && anuncioStore.listAnuncios.length > 0) {
+            if (anuncioStore.loading && anuncioStore.listAnuncios.isNotEmpty) {
               return Align(
                 alignment: Alignment.center,
                 child: Text(
