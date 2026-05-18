@@ -22,29 +22,41 @@ class _AnunciosPageState extends State<AnunciosPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) => anuncioStore.loading
-          ? Center(child: CircularProgressIndicator(color: Colors.white))
-          : Column(
-              children: [
-                TopBarWidget(),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: anuncioStore.listAnuncios.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(
-                          anuncioStore.listAnuncios[index].title!,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      );
-                    },
-                  ),
+    return Column(
+      children: [
+        TopBarWidget(),
+        const SizedBox(height: 20),
+        Observer(
+          builder: (_) {
+            if (anuncioStore.loading && anuncioStore.listAnuncios.length > 0) {
+              return Align(
+                alignment: Alignment.center,
+                child: Text(
+                  'Anuncio não encontrado!',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
-              ],
-            ),
+              );
+            }
+
+            return anuncioStore.loading
+                ? Center(child: CircularProgressIndicator(color: Colors.white))
+                : Expanded(
+                    child: ListView.builder(
+                      itemCount: anuncioStore.listAnuncios.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(
+                            anuncioStore.listAnuncios[index].title!,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+          },
+        ),
+      ],
     );
   }
 }

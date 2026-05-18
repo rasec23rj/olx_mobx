@@ -38,4 +38,10 @@ abstract class _CategoryStoreBase with Store {
 
   @action
   void setCategory(String value) => category = value;
+
+  @observable
+  CategoryModel categorySelected = CategoryModel.empty();
+
+  @action
+  setCategorySelected(CategoryModel value) => categorySelected = value;
 }

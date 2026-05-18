@@ -13,6 +13,9 @@ class CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<CategoryModel>(
+      initialValue: categoryStore.categorySelected.title != null
+          ? categoryStore.categorySelected
+          : null,
       decoration: InputDecoration(
         labelText: 'Selecione uma opção',
         border: InputBorder.none,
@@ -29,8 +32,8 @@ class CategoryWidget extends StatelessWidget {
         );
       }).toList(),
       onChanged: (value) {
-        //        anuncioStore.category = value!;
         anuncioStore.setCategory(value!);
+        categoryStore.setCategorySelected(value);
       },
     );
   }
