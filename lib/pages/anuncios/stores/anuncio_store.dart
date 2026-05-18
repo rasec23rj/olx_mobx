@@ -299,7 +299,7 @@ abstract class _AnuncioStoreBase with Store {
   String search = '';
 
   @action
-  void setSearch(String value) => search = value;
+  void setSearch(String value) => {search = value, loadAnuncios()};
 
   @action
   Future<void> loadAnuncios() async {

@@ -74,13 +74,16 @@ class AnuncioRepository {
         filter.initialValueCity.name.toString(),
       );
     }
+    if (search!.isNotEmpty) {
+      queryBuilder.whereContains('title', search);
+    }
     if (filter.minPrice > 0) {
       queryBuilder.whereGreaterThanOrEqualsTo('preco', filter.minPrice);
     }
     if (filter.maxPrice > 0) {
       queryBuilder.whereLessThanOrEqualTo('preco', filter.maxPrice);
     }
-    //queryBuilder.orderByAscending(filter!.order.name.toLowerCase());
+    queryBuilder.orderByAscending(filter!.order.name.toLowerCase());
 
     final response = await queryBuilder.query();
 
