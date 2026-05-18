@@ -25,7 +25,9 @@ class TopBarWidget extends StatelessWidget {
         Observer(
           builder: (_) {
             return barButton(
-              title: anuncioStore.category!.title ?? 'Categorias',
+              title: (anuncioStore.category.title != null)
+                  ? anuncioStore.category.title
+                  : 'Categorias',
               decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.grey[400]!)),
               ),

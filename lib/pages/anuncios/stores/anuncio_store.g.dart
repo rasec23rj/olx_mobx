@@ -422,7 +422,7 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
   }
 
   @override
-  void setPreco(int value) {
+  void setPreco(int? value) {
     final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
       name: '_AnuncioStoreBase.setPreco',
     );

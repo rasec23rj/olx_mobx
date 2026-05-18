@@ -116,8 +116,9 @@ class _CriarAnunciosState extends State<CriarAnuncios> {
                             builder: (_) {
                               return CustomTextFiled(
                                 label: 'Preço *',
-                                onChanged: (value) =>
-                                    anuncioStore.setPreco(int.tryParse(value)!),
+                                onChanged: (value) => anuncioStore.setPreco(
+                                  int.tryParse(value.replaceAll('R\$', ''))!,
+                                ),
                                 errorText: anuncioStore.precoError,
                                 keyBoardType: TextInputType.number,
                                 inputFormatters: [

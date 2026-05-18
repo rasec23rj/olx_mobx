@@ -29,7 +29,8 @@ class CategoryWidget extends StatelessWidget {
         );
       }).toList(),
       onChanged: (value) {
-        anuncioStore.category = value!;
+        //        anuncioStore.category = value!;
+        anuncioStore.setCategory(value!);
       },
     );
   }

@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:olx_mobx/models/category_model.dart';
 import 'package:olx_mobx/models/city_model.dart';
 import 'package:olx_mobx/models/uf_model.dart';
 import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
@@ -86,5 +87,15 @@ abstract class _FilterStoreBase with Store {
   @action
   void save() {
     GetIt.I<AnuncioStore>().setFilter(this as FilterStore);
+  }
+
+  @action
+  void resetLoading() {
+    initialValueUf.name = '';
+    initialValueCity.name = '';
+    GetIt.I<AnuncioStore>().category = CategoryModel(title: null, id: null);
+    setMaxPrice(0);
+    setMinPrice(0);
+    GetIt.I<AnuncioStore>().loadAnuncios();
   }
 }

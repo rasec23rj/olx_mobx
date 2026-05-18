@@ -15,7 +15,18 @@ class FilterDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Filtro de Busca')),
+      appBar: AppBar(
+        title: const Text('Filtro de Busca'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              filterStore.resetLoading();
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.delete),
+          ),
+        ],
+      ),
       body: Dialog(
         backgroundColor: Colors.transparent,
         child: Card(

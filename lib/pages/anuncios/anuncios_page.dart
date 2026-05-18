@@ -17,7 +17,7 @@ class _AnunciosPageState extends State<AnunciosPage> {
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
-    await anuncioStore.loadAnuncios();
+    anuncioStore.loadAnuncios();
   }
 
   @override

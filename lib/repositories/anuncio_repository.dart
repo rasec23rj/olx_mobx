@@ -1,5 +1,6 @@
 import 'package:olx_mobx/core/utils/parser_errors.dart';
 import 'package:olx_mobx/models/anuncio_model.dart';
+import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
 import 'package:olx_mobx/pages/anuncios/stores/filter_store.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
@@ -51,13 +52,35 @@ class AnuncioRepository {
     }
   }
 
-  Future<List<AnuncioModel>> getListFilter(FilterStore filter) async {
-    final queryBuilder = QueryBuilder(ParseObject('Anuncios'))
-      ..whereEqualTo('uf', filter.initialValueUf.initials.toString())
-      ..whereEqualTo('city', filter.initialValueCity.name.toString())
-      ..whereGreaterThanOrEqualsTo('preco', filter.minPrice)
-      ..whereLessThanOrEqualTo('preco', filter.maxPrice)
-      ..orderByAscending(filter.order.name.toLowerCase());
+  Future<List<AnuncioModel>> getListFilter(
+    FilterStore? filter,
+    AnuncioStore? anuncio,
+    String? search,
+  ) async {
+    final queryBuilder = QueryBuilder(ParseObject('Anuncios'));
+
+    if (filter!.initialValueUf.initials.toString().isNotEmpty) {
+      queryBuilder.whereEqualTo(
+        'uf',
+        filter.initialValueUf.initials.toString(),
+      );
+    }
+    if (anuncio!.category.id != null) {
+      queryBuilder.whereEqualTo('category', anuncio.category.id!);
+    }
+    if (filter.initialValueCity.name.toString().isNotEmpty) {
+      queryBuilder.whereEqualTo(
+        'city',
+        filter.initialValueCity.name.toString(),
+      );
+    }
+    if (filter.minPrice > 0) {
+      queryBuilder.whereGreaterThanOrEqualsTo('preco', filter.minPrice);
+    }
+    if (filter.maxPrice > 0) {
+      queryBuilder.whereLessThanOrEqualTo('preco', filter.maxPrice);
+    }
+    //queryBuilder.orderByAscending(filter!.order.name.toLowerCase());
 
     final response = await queryBuilder.query();
 

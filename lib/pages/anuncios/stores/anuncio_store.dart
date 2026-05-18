@@ -22,7 +22,9 @@ abstract class _AnuncioStoreBase with Store {
   CepStore cepStore = CepStore();
   _AnuncioStoreBase() {
     // loadAnuncios();
-    autorun((_) {});
+    autorun((_) {
+      loadAnuncios();
+    });
   }
   @observable
   File? imageFile;
@@ -172,7 +174,7 @@ abstract class _AnuncioStoreBase with Store {
   CategoryModel category = CategoryModel.empty();
 
   @action
-  void setCategory(CategoryModel value) => category = value;
+  void setCategory(CategoryModel value) => {category = value, loadAnuncios()};
 
   @computed
   bool get categoryValid => category.title != null;
@@ -208,7 +210,7 @@ abstract class _AnuncioStoreBase with Store {
   int preco = 0;
 
   @action
-  void setPreco(int value) => preco = value;
+  void setPreco(int? value) => preco = value!;
 
   @computed
   bool get precoValid => preco > 0;
@@ -304,9 +306,11 @@ abstract class _AnuncioStoreBase with Store {
     try {
       loading = true;
       listAnuncios.clear();
-      final anuncios = filter.initialValueUf.name!.isEmpty
-          ? await AnuncioRepository().getList()
-          : await AnuncioRepository().getListFilter(filter);
+      final anuncios = await AnuncioRepository().getListFilter(
+        filter,
+        this as AnuncioStore,
+        search,
+      );
       setAnuncios(anuncios);
       loading = false;
     } catch (e) {

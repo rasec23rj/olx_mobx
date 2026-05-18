@@ -256,6 +256,18 @@ mixin _$FilterStore on _FilterStoreBase, Store {
   }
 
   @override
+  void resetLoading() {
+    final _$actionInfo = _$_FilterStoreBaseActionController.startAction(
+      name: '_FilterStoreBase.resetLoading',
+    );
+    try {
+      return super.resetLoading();
+    } finally {
+      _$_FilterStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 order: ${order},
