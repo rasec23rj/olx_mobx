@@ -22,8 +22,8 @@ abstract class _AnuncioStoreBase with Store {
   CepStore cepStore = CepStore();
   _AnuncioStoreBase() {
     // loadAnuncios();
-    autorun((_) {
-      loadAnuncios();
+    autorun((_) async {
+      await loadAnuncios();
     });
   }
   @observable
