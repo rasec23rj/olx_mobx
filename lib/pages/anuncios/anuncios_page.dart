@@ -39,121 +39,112 @@ class _AnunciosPageState extends State<AnunciosPage> {
       children: [
         TopBarWidget(),
         const SizedBox(height: 20),
-        Observer(
-          builder: (_) {
-            if (anuncioStore.loading && anuncioStore.listAnuncios.isNotEmpty) {
-              return Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Anuncio não encontrado!',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              );
-            }
+        Expanded(
+          child: Stack(
+            children: [
+              Observer(
+                builder: (_) {
+                  if (anuncioStore.showProgress) {
+                    return const Center(
+                      child: CircularProgressIndicator(color: Colors.white),
+                    );
+                  }
 
-            return anuncioStore.showProgress
-                ? Center(child: CircularProgressIndicator(color: Colors.white))
-                : Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: ListView.builder(
-                        itemCount: anuncioStore.incrementCount,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          final anuncios = anuncioStore.listAnuncios;
-                          if (index < anuncioStore.listAnuncios.length) {
-                            return GestureDetector(
-                              onTap: () {
-                                anuncioStore.getUser(anuncios[index].user!);
-                                navegatorPageDetalhe(anuncios[index]);
-                              },
+                  if (anuncioStore.loading &&
+                      anuncioStore.listAnuncios.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'Anuncio não encontrado!',
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                    );
+                  }
 
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadiusGeometry.circular(
-                                    20,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+
+                    child: ListView.builder(
+                      itemCount: anuncioStore.incrementCount,
+
+                      itemBuilder: (context, index) {
+                        if (index >= anuncioStore.listAnuncios.length) {
+                          anuncioStore.loadNextPage();
+
+                          return const Padding(
+                            padding: EdgeInsets.all(10),
+                            child: LinearProgressIndicator(),
+                          );
+                        }
+
+                        final anuncio = anuncioStore.listAnuncios[index];
+
+                        return GestureDetector(
+                          onTap: () {
+                            anuncioStore.getUser(anuncio.user!);
+
+                            navegatorPageDetalhe(anuncio);
+                          },
+
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+
+                            clipBehavior: Clip.antiAlias,
+
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: 120,
+                                  width: 140,
+                                  child: Image.network(
+                                    anuncio.imagePath![0].url,
+                                    fit: BoxFit.cover,
+                                    cacheHeight: 120,
+                                    cacheWidth: 140,
                                   ),
                                 ),
-                                clipBehavior: Clip.antiAlias,
-                                elevation: 8,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
 
-                                  children: [
-                                    SizedBox(
-                                      height: 120,
-                                      width: 140,
-                                      child: Image.network(
-                                        anuncios[index].imagePath![0].url,
-                                        cacheHeight: 100,
-                                        cacheWidth: 140,
-                                        height: 100,
-                                        width: 140,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 20, height: 50),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 10,
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          anuncio.title!,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              anuncios[index].title!,
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            Text(
-                                              anuncios[index].preco!
-                                                  .formattedMoney(),
-                                              style: TextStyle(
-                                                fontSize: 19,
-                                                color: Colors.green,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            Text(
-                                              '${anuncios[index].createdAt!.formattedDate()} - '
-                                              '${anuncios[index].city} - '
-                                              '${anuncios[index].uf}',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w300,
-                                                fontSize: 13,
-                                              ),
-                                              maxLines: null,
-                                              softWrap: true,
-                                            ),
-                                          ],
+                                        Text(
+                                          anuncio.preco!.formattedMoney(),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.green,
+                                            fontSize: 18,
+                                          ),
                                         ),
-                                      ),
+                                        Text(
+                                          '${anuncio.createdAt!.formattedDate()} - '
+                                          '${anuncio.city}',
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          }
-                          anuncioStore.loadNextPage();
-                          return SizedBox(
-                            height: 10,
-                            child: LinearProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(Colors.white),
+                              ],
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   );
-          },
+                },
+              ),
+            ],
+          ),
         ),
       ],
     );

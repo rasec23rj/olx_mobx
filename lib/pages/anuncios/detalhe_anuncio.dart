@@ -25,7 +25,7 @@ class DetalheAnuncio extends StatelessWidget {
           ImageSlider(images: anuncios.imagePath!),
 
           Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 15),
+            padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 39),
 
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
