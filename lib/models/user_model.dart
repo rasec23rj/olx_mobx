@@ -1,3 +1,5 @@
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+
 class UserModel {
   UserModel({
     required this.name,
@@ -10,12 +12,18 @@ class UserModel {
   });
 
   String? id;
-  String name;
-  String email;
-  String celular;
+  String? name;
+  String? email;
+  String? celular;
   String? password;
-  UserType type;
+  UserType? type;
   DateTime? createdAt;
+
+  UserModel.fromParse(ParseObject parseObject)
+    : id = parseObject.objectId!,
+      name = parseObject.get('name'),
+      email = parseObject.get('email'),
+      celular = parseObject.get('celular');
 
   @override
   String toString() {

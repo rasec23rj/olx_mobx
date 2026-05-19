@@ -56,6 +56,7 @@ class AnuncioRepository {
     FilterStore? filter,
     AnuncioStore? anuncio,
     String? search,
+    int? page,
   ) async {
     final queryBuilder = QueryBuilder(ParseObject('Anuncios'));
 
@@ -83,7 +84,10 @@ class AnuncioRepository {
     if (filter.maxPrice > 0) {
       queryBuilder.whereLessThanOrEqualTo('preco', filter.maxPrice);
     }
-    queryBuilder.orderByAscending(filter!.order.name.toLowerCase());
+    queryBuilder.orderByAscending(filter.order.name.toLowerCase());
+
+    queryBuilder.setAmountToSkip(page! * 5);
+    queryBuilder.setLimit(5);
 
     final response = await queryBuilder.query();
 

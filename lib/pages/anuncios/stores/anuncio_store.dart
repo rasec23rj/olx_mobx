@@ -13,6 +13,7 @@ import 'package:olx_mobx/models/category_model.dart';
 import 'package:olx_mobx/pages/anuncios/stores/cep_store.dart';
 import 'package:olx_mobx/pages/anuncios/stores/filter_store.dart';
 import 'package:olx_mobx/repositories/anuncio_repository.dart';
+import 'package:olx_mobx/repositories/user_repository.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 part 'anuncio_store.g.dart';
 
@@ -23,7 +24,7 @@ abstract class _AnuncioStoreBase with Store {
   _AnuncioStoreBase() {
     // loadAnuncios();
     autorun((_) async {
-      await loadAnuncios();
+      // await loadAnuncios();
     });
   }
   @observable
@@ -174,7 +175,7 @@ abstract class _AnuncioStoreBase with Store {
   CategoryModel category = CategoryModel.empty();
 
   @action
-  void setCategory(CategoryModel value) => {category = value, loadAnuncios()};
+  void setCategory(CategoryModel value) => {category = value, resetPage()};
 
   @computed
   bool get categoryValid => category.title != null;
@@ -291,7 +292,7 @@ abstract class _AnuncioStoreBase with Store {
 
   @action
   void setAnuncios(List<AnuncioModel> anuncios) {
-    listAnuncios.clear();
+    // listAnuncios.clear();
     listAnuncios.addAll(anuncios);
   }
 
@@ -299,7 +300,7 @@ abstract class _AnuncioStoreBase with Store {
   String search = '';
 
   @action
-  void setSearch(String value) => {search = value, loadAnuncios()};
+  void setSearch(String value) => {search = value, resetPage()};
 
   @action
   Future<void> loadAnuncios() async {
@@ -310,8 +311,11 @@ abstract class _AnuncioStoreBase with Store {
         filter,
         this as AnuncioStore,
         search,
+        page,
       );
-      setAnuncios(anuncios);
+
+      addNewsAnuncio(anuncios);
+      // setAnuncios(anuncios);
       loading = false;
     } catch (e) {
       setError(e.toString());
@@ -329,5 +333,51 @@ abstract class _AnuncioStoreBase with Store {
   FilterStore filter = FilterStore();
 
   @action
-  void setFilter(FilterStore value) => {filter = value, loadAnuncios()};
+  void setFilter(FilterStore value) => {filter = value, resetPage()};
+
+  @observable
+  int page = 0;
+
+  @action
+  void setPage(int value) => page = value;
+
+  @action
+  void loadNextPage() {
+    page++;
+  }
+
+  @computed
+  int get incrementCount =>
+      lastPage ? listAnuncios.length : listAnuncios.length + 1;
+
+  @action
+  void resetPage() {
+    page = 0;
+    listAnuncios.clear();
+    lastPage = false;
+  }
+
+  @observable
+  bool lastPage = false;
+
+  @action
+  void addNewsAnuncio(List<AnuncioModel> newAnuncios) {
+    if (newAnuncios.length < 5) lastPage = true;
+    listAnuncios.addAll(newAnuncios);
+  }
+
+  @computed
+  bool get showProgress => loading && listAnuncios.isEmpty;
+
+  @observable
+  String userName = '';
+
+  @action
+  void setUserName(String value) => userName = value;
+
+  @action
+  Future<void> getUser(String value) async {
+    final user = await UserRepository().currentUserName(value);
+    setUserName(user.name!);
+  }
 }

@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     super.didChangeDependencies();
     await sessionStoreUser.getCurrentUser();
     reaction((_) => pageStore.page, (page) => pageEC.jumpToPage(page));
-    if (sessionStoreUser.user.name.isEmpty) {
+    if (sessionStoreUser.user.name!.isEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) => SignIn()));
       });

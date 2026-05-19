@@ -66,6 +66,20 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
     () => super.isFormValid,
     name: '_AnuncioStoreBase.isFormValid',
   )).value;
+  Computed<int>? _$incrementCountComputed;
+
+  @override
+  int get incrementCount => (_$incrementCountComputed ??= Computed<int>(
+    () => super.incrementCount,
+    name: '_AnuncioStoreBase.incrementCount',
+  )).value;
+  Computed<bool>? _$showProgressComputed;
+
+  @override
+  bool get showProgress => (_$showProgressComputed ??= Computed<bool>(
+    () => super.showProgress,
+    name: '_AnuncioStoreBase.showProgress',
+  )).value;
 
   late final _$imageFileAtom = Atom(
     name: '_AnuncioStoreBase.imageFile',
@@ -316,6 +330,60 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
     });
   }
 
+  late final _$pageAtom = Atom(
+    name: '_AnuncioStoreBase.page',
+    context: context,
+  );
+
+  @override
+  int get page {
+    _$pageAtom.reportRead();
+    return super.page;
+  }
+
+  @override
+  set page(int value) {
+    _$pageAtom.reportWrite(value, super.page, () {
+      super.page = value;
+    });
+  }
+
+  late final _$lastPageAtom = Atom(
+    name: '_AnuncioStoreBase.lastPage',
+    context: context,
+  );
+
+  @override
+  bool get lastPage {
+    _$lastPageAtom.reportRead();
+    return super.lastPage;
+  }
+
+  @override
+  set lastPage(bool value) {
+    _$lastPageAtom.reportWrite(value, super.lastPage, () {
+      super.lastPage = value;
+    });
+  }
+
+  late final _$userNameAtom = Atom(
+    name: '_AnuncioStoreBase.userName',
+    context: context,
+  );
+
+  @override
+  String get userName {
+    _$userNameAtom.reportRead();
+    return super.userName;
+  }
+
+  @override
+  set userName(String value) {
+    _$userNameAtom.reportWrite(value, super.userName, () {
+      super.userName = value;
+    });
+  }
+
   late final _$pickImageAsyncAction = AsyncAction(
     '_AnuncioStoreBase.pickImage',
     context: context,
@@ -354,6 +422,16 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
   @override
   Future<void> loadAnuncios() {
     return _$loadAnunciosAsyncAction.run(() => super.loadAnuncios());
+  }
+
+  late final _$getUserAsyncAction = AsyncAction(
+    '_AnuncioStoreBase.getUser',
+    context: context,
+  );
+
+  @override
+  Future<void> getUser(String value) {
+    return _$getUserAsyncAction.run(() => super.getUser(value));
   }
 
   late final _$_AnuncioStoreBaseActionController = ActionController(
@@ -494,6 +572,66 @@ mixin _$AnuncioStore on _AnuncioStoreBase, Store {
   }
 
   @override
+  void setPage(int value) {
+    final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
+      name: '_AnuncioStoreBase.setPage',
+    );
+    try {
+      return super.setPage(value);
+    } finally {
+      _$_AnuncioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void loadNextPage() {
+    final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
+      name: '_AnuncioStoreBase.loadNextPage',
+    );
+    try {
+      return super.loadNextPage();
+    } finally {
+      _$_AnuncioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetPage() {
+    final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
+      name: '_AnuncioStoreBase.resetPage',
+    );
+    try {
+      return super.resetPage();
+    } finally {
+      _$_AnuncioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void addNewsAnuncio(List<AnuncioModel> newAnuncios) {
+    final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
+      name: '_AnuncioStoreBase.addNewsAnuncio',
+    );
+    try {
+      return super.addNewsAnuncio(newAnuncios);
+    } finally {
+      _$_AnuncioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setUserName(String value) {
+    final _$actionInfo = _$_AnuncioStoreBaseActionController.startAction(
+      name: '_AnuncioStoreBase.setUserName',
+    );
+    try {
+      return super.setUserName(value);
+    } finally {
+      _$_AnuncioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 imageFile: ${imageFile},
@@ -510,6 +648,9 @@ listAnuncios: ${listAnuncios},
 search: ${search},
 hidePhone: ${hidePhone},
 filter: ${filter},
+page: ${page},
+lastPage: ${lastPage},
+userName: ${userName},
 imagesValid: ${imagesValid},
 titleValid: ${titleValid},
 descriptionValid: ${descriptionValid},
@@ -517,7 +658,9 @@ categoryValid: ${categoryValid},
 cepValid: ${cepValid},
 precoValid: ${precoValid},
 anuncioPress: ${anuncioPress},
-isFormValid: ${isFormValid}
+isFormValid: ${isFormValid},
+incrementCount: ${incrementCount},
+showProgress: ${showProgress}
     ''';
   }
 }

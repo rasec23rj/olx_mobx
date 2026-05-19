@@ -24,7 +24,7 @@ abstract class _SessionStoreUserBase with Store {
 
   Future<void> getCurrentUser() async {
     final user = await UserRepository().currentUser();
-    if (user.name.isNotEmpty || user.name != '') {
+    if (user.name!.isNotEmpty || user.name != '') {
       validUser = true;
     } else {
       validUser = false;

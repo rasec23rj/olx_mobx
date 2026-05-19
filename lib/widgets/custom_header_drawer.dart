@@ -32,13 +32,13 @@ class CustomHeaderDrawer extends StatelessWidget {
                 children: [
                   Text(
                     sessionStoreUser.isLoggedIn
-                        ? sessionStoreUser.user.name.toUpperCase()
+                        ? sessionStoreUser.user.name!.toUpperCase()
                         : 'Acesse sua conta agora!',
                     style: TextStyle(color: Colors.white),
                   ),
                   Text(
                     sessionStoreUser.isLoggedIn
-                        ? sessionStoreUser.user.email
+                        ? sessionStoreUser.user.email!
                         : 'Clique aqui!',
                     style: TextStyle(color: Colors.white),
                   ),

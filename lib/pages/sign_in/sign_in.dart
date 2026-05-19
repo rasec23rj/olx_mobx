@@ -34,7 +34,7 @@ class _SignInState extends State<SignIn> {
     super.didChangeDependencies();
     await sessionStoreUser.getCurrentUser();
 
-    if (sessionStoreUser.user.name.isNotEmpty) {
+    if (sessionStoreUser.user.name!.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.of(
           context,

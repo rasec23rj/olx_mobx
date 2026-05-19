@@ -80,9 +80,8 @@ abstract class _FilterStoreBase with Store {
 
   @computed
   bool get isFormValidFilter =>
-      priceError == null &&
-      initialValueUf.name!.isNotEmpty &&
-      initialValueCity.name!.isNotEmpty;
+      priceError == null ||
+      (initialValueUf.name!.isNotEmpty && initialValueCity.name!.isNotEmpty);
 
   @action
   void save() {

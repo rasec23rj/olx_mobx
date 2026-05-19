@@ -9,9 +9,9 @@ class UserRepository {
   Future<UserModel> sinUp(UserModel user) async {
     final parserUser = ParseUser(user.email, user.password, user.email);
 
-    parserUser.set<String>(userName, user.name);
-    parserUser.set<String>(userCelular, user.celular);
-    parserUser.set<int>(userType, user.type.index);
+    parserUser.set<String>(userName, user.name!);
+    parserUser.set<String>(userCelular, user.celular!);
+    parserUser.set<int>(userType, user.type!.index);
 
     final response = await parserUser.signUp();
 
@@ -50,6 +50,22 @@ class UserRepository {
       }
     }
     return UserModel(name: '', email: '', celular: '');
+  }
+
+  Future<UserModel> currentUserName(String id) async {
+    final queryBuilder = QueryBuilder<ParseUser>(ParseUser.forQuery());
+
+    queryBuilder.whereEqualTo('objectId', id);
+    final response = await queryBuilder.query();
+    if (response.success &&
+        response.results != null &&
+        response.results!.isNotEmpty) {
+      final user = response.results!.first;
+
+      return UserModel.fromParse(user);
+    } else {
+      return UserModel(name: '', email: '', celular: '');
+    }
   }
 
   UserModel mapParserToUser(ParseUser parserUser) {

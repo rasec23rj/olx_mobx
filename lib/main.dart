@@ -9,6 +9,7 @@ import 'package:olx_mobx/pages/anuncios/stores/category_store.dart';
 import 'package:olx_mobx/pages/anuncios/stores/cep_store.dart';
 import 'package:olx_mobx/pages/anuncios/stores/filter_store.dart';
 import 'package:olx_mobx/widgets/store/page_store.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +37,13 @@ class MyApp extends StatelessWidget {
       title: 'XLO',
       scrollBehavior: MyCustomScrollBehavior(),
       debugShowCheckedModeBanner: false,
+      supportedLocales: [Locale('pt', 'BR')],
+      locale: const Locale('pt', 'BR'),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
         scaffoldBackgroundColor: Colors.deepPurple,
@@ -46,14 +54,6 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
           centerTitle: true,
         ),
-        // elevatedButtonTheme: ElevatedButtonThemeData(
-        //   style: ButtonStyle(
-        //     backgroundColor: WidgetStateProperty.all(
-        //       const Color.fromARGB(255, 90, 1, 253),
-        //     ),
-        //     foregroundColor: WidgetStateProperty.all(Colors.white),
-        //   ),
-        // ),
       ),
 
       home: const HomePage(),
