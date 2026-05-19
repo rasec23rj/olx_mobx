@@ -8,6 +8,7 @@ import 'package:olx_mobx/core/session/session_store_user.dart';
 import 'package:olx_mobx/pages/anuncios/anuncios_page.dart';
 import 'package:olx_mobx/pages/anuncios/criar_anuncios.dart';
 import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
+import 'package:olx_mobx/pages/anuncios/stores/filter_store.dart';
 import 'package:olx_mobx/pages/sign_in/sign_in.dart';
 import 'package:olx_mobx/widgets/custom_drawer.dart';
 import 'package:olx_mobx/widgets/store/page_store.dart';
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   PageStore pageStore = GetIt.I<PageStore>();
   AnuncioStore anuncioStore = GetIt.I<AnuncioStore>();
   SessionStoreUser sessionStoreUser = GetIt.I<SessionStoreUser>();
+  FilterStore filterStore = GetIt.I<FilterStore>();
   final pageEC = PageController();
 
   @override
@@ -58,6 +60,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<dynamic> deleteSearch(BuildContext context) async {
+    filterStore.resetLoading();
+    anuncioStore.setSearch('');
+  }
+
   final searchEC = TextEditingController();
 
   @override
@@ -78,7 +85,11 @@ class _HomePageState extends State<HomePage> {
                 builder: (_) {
                   return pageStore.page == 0
                       ? IconButton(
-                          onPressed: () => openSearch(context),
+                          onPressed: () =>
+                              (anuncioStore.search == "" &&
+                                  anuncioStore.category.title != null)
+                              ? openSearch(context)
+                              : deleteSearch(context),
                           icon: Icon(
                             anuncioStore.search.isEmpty
                                 ? Icons.search
