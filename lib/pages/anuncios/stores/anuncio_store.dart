@@ -24,7 +24,7 @@ abstract class _AnuncioStoreBase with Store {
   _AnuncioStoreBase() {
     // loadAnuncios();
     autorun((_) async {
-      // await loadAnuncios();
+      await loadAnuncios();
     });
   }
   @observable
@@ -175,7 +175,11 @@ abstract class _AnuncioStoreBase with Store {
   CategoryModel category = CategoryModel.empty();
 
   @action
-  void setCategory(CategoryModel value) => {category = value, resetPage()};
+  void setCategory(CategoryModel value) => {
+    category = value,
+    loadAnuncios(),
+    resetPage(),
+  };
 
   @computed
   bool get categoryValid => category.title != null;
@@ -300,7 +304,7 @@ abstract class _AnuncioStoreBase with Store {
   String search = '';
 
   @action
-  void setSearch(String value) => {search = value, resetPage()};
+  void setSearch(String value) => {search = value, resetPage(), loadAnuncios()};
 
   @action
   Future<void> loadAnuncios() async {
@@ -333,7 +337,11 @@ abstract class _AnuncioStoreBase with Store {
   FilterStore filter = FilterStore();
 
   @action
-  void setFilter(FilterStore value) => {filter = value, resetPage()};
+  void setFilter(FilterStore value) => {
+    filter = value,
+    resetPage(),
+    loadAnuncios(),
+  };
 
   @observable
   int page = 0;
@@ -362,7 +370,7 @@ abstract class _AnuncioStoreBase with Store {
 
   @action
   void addNewsAnuncio(List<AnuncioModel> newAnuncios) {
-    if (newAnuncios.length < 5) lastPage = true;
+    if (newAnuncios.length <= 5) lastPage = true;
     listAnuncios.addAll(newAnuncios);
   }
 

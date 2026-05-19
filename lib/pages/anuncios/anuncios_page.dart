@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:olx_mobx/models/anuncio_model.dart';
 import 'package:olx_mobx/pages/anuncios/detalhe_anuncio.dart';
 import 'package:olx_mobx/pages/anuncios/stores/anuncio_store.dart';
+import 'package:olx_mobx/pages/anuncios/widget/create_anuncio_button.dart';
 import 'package:olx_mobx/pages/anuncios/widget/top_bar.dart';
 import 'package:olx_mobx/core/utils/extensions.dart';
 
@@ -16,12 +17,7 @@ class AnunciosPage extends StatefulWidget {
 
 class _AnunciosPageState extends State<AnunciosPage> {
   AnuncioStore anuncioStore = GetIt.I<AnuncioStore>();
-
-  @override
-  Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
-    anuncioStore.loadAnuncios();
-  }
+  final ScrollController scrollController = ScrollController();
 
   void navegatorPageDetalhe(AnuncioModel anuncios) {
     Navigator.of(context).push(
@@ -65,7 +61,7 @@ class _AnunciosPageState extends State<AnunciosPage> {
 
                     child: ListView.builder(
                       itemCount: anuncioStore.incrementCount,
-
+                      controller: scrollController,
                       itemBuilder: (context, index) {
                         if (index >= anuncioStore.listAnuncios.length) {
                           anuncioStore.loadNextPage();
@@ -142,6 +138,12 @@ class _AnunciosPageState extends State<AnunciosPage> {
                     ),
                   );
                 },
+              ),
+              Positioned(
+                bottom: -50,
+                left: 0,
+                right: 0,
+                child: CreateAnuncioButton(scrollController: scrollController),
               ),
             ],
           ),
